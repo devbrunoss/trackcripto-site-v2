@@ -1,0 +1,2015 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackCripto • Ferramentas Cripto</title>
+  <meta name="color-scheme" content="dark light">
+  <!-- Bibliotecas atualizadas -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@1.1.0"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #00ff88;
+      --primary-dark: #00cc6a;
+      --bg: #0a0a0a;
+      --card: #1a1a1a;
+      --text: #ffffff;
+      --text-muted: #aaaaaa;
+      --error: #ff4d4d;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f5f5f5;
+      --card: #ffffff;
+      --text: #333333;
+      --text-muted: #666666;
+      --primary: #00a55a;
+      --primary-dark: #008548;
+    }
+
+    /* Estilo para o ícone do botão */
+    #themeToggle i {
+      transition: transform 0.3s;
+    }
+
+    [data-theme="light"] #themeToggle i {
+      transform: rotate(180deg);
+    }
+
+    /* Garante que os inputs fiquem legíveis no light mode */
+    [data-theme="light"] .form-input {
+      background: rgba(0, 0, 0, 0.05);
+      color: #333;
+      border-color: var(--primary);
+    }
+
+    /* Ajusta as cores do chat no light mode */
+    [data-theme="light"] #aiChatContainer {
+      background: #f0f2f5;
+      border-color: var(--primary);
+    }
+
+    [data-theme="light"] #chatContent div[style*="background:rgba(0,255,136"] {
+      background: rgba(0, 165, 90, 0.1) !important;
+      color: #333 !important;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card {
+      background: var(--card);
+      transition: transform 0.3s, box-shadow 0.3s;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(0, 255, 136, 0.1);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2);
+    }
+
+    .price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 10px 0;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 15px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .metric-card {
+      background: rgba(0, 255, 136, 0.05);
+      border-radius: 8px;
+      padding: 15px;
+      border-left: 3px solid var(--primary);
+    }
+
+    /* Estilos para a seção educativa */
+    .tab-buttons {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .tab-btn {
+      background: rgba(0, 255, 136, 0.1);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: var(--primary);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #000;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .glossario-grid,
+    .tutoriais-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .termo-card,
+    .tutorial-card {
+      background: rgba(0, 255, 136, 0.05);
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      transition: transform 0.3s;
+    }
+
+    .termo-card:hover,
+    .tutorial-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+    }
+
+    .termo-card h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .termo-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .search-box {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .search-box i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+    }
+
+    .tutorial-card {
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tutorial-card h3 {
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .tutorial-card .dificuldade {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 255, 136, 0.2);
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+
+    .tutorial-card .tempo {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    .tutorial-card .tempo i {
+      margin-right: 5px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #00ff88;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #000;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .btn:hover {
+      transform: scale(1.03);
+    }
+
+    @media (max-width: 768px) {
+      .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .price {
+        font-size: 2rem;
+      }
+    }
+
+    /* Fear & Greed Meter */
+    #fear-greed {
+      background: linear-gradient(90deg, #ff0000 0%, #ffcc00 50%, #00ff88 100%);
+      height: 20px;
+      border-radius: 10px;
+      margin: 15px 0;
+      position: relative;
+    }
+
+    #fear-greed-indicator {
+      position: absolute;
+      top: -5px;
+      width: 20px;
+      height: 30px;
+      background: white;
+      border-radius: 5px;
+      transform: translateX(-10px);
+      transition: left 0.5s ease;
+    }
+
+    /* Risk Calculator */
+    #risk-result {
+      background: rgba(0, 255, 136, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 3px solid #00ff88;
+      display: none;
+      animation: fadeIn 0.5s;
+      margin-top: 15px;
+      transition: all 0.3s ease;
+    }
+
+    #risk-value {
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    #risk-calculator {
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--primary);
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      background: rgba(0, 255, 136, 0.1);
+      transition: all 0.3s;
+    }
+
+    nav a:hover {
+      background: rgba(0, 255, 136, 0.2);
+    }
+
+    /* Chat IA Styles */
+    #aiChatContainer {
+      position: fixed;
+      bottom: 90px;
+      right: 30px;
+      width: 350px;
+      max-height: 400px;
+      background: #1a1a2e;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+      display: none;
+      z-index: 1000;
+      overflow: hidden;
+      border: 1px solid rgba(0, 255, 136, 0.3);
+    }
+
+    #chatToggle {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: #00ff88;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+      transition: all 0.3s;
+    }
+
+    /* Estilos atualizados para Índices de Mercado */
+    .market-indices-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .market-indices-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .index-card {
+      position: relative;
+      min-height: 200px;
+    }
+
+    .simplified-chart {
+      height: 120px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      margin: 10px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chart-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #f7931a, #ff9900);
+      width: 0;
+      transition: width 1s ease;
+    }
+
+    .season-status {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .status-indicator {
+      width: 100%;
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 5px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .status-indicator::after {
+      content: '';
+      position: absolute;
+      left: 75%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #333;
+    }
+
+    .status-text {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .chart-error {
+      color: #e74c3c;
+      text-align: center;
+      padding: 5px;
+      font-size: 0.8rem;
+    }
+
+    .update-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px solid var(--text-muted);
+    }
+
+    .refresh-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Estilos para o portfólio */
+    .portfolio-chart canvas {
+      width: 100% !important;
+      height: 300px !important;
+    }
+
+    .portfolio-table {
+      margin-top: 20px;
+      overflow-x: auto;
+    }
+
+    .portfolio-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .portfolio-table th,
+    .portfolio-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+    }
+
+    .portfolio-table th {
+      color: var(--primary);
+    }
+
+    .portfolio-confirmation {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 50px;
+      z-index: 1000;
+      animation: slideUp 0.5s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(100%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    /* Microinterações */
+    .updating {
+      animation: pulseUpdate 0.5s ease;
+    }
+
+    @keyframes pulseUpdate {
+      0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(0, 255, 136, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 136, 0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============ NOVOS ESTILOS ADICIONADOS ============ */
+
+    /* Alertas de Preço */
+    #alertsContainer {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .alert-item {
+      background: rgba(0,255,136,0.05);
+      border-left: 3px solid var(--primary);
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Calculadora de Trade */
+    #calcResult {
+      display: none;
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(0,255,136,0.1);
+      border-radius: 8px;
+    }
+
+    /* Mobile First Adjustments */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* Ajuste do gráfico */
+      .chart-container {
+        height: 200px;
+        padding: 10px;
+      }
+
+      /* Menu compacto */
+      nav {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      nav a {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+      }
+
+      /* Chat IA menor */
+      #aiChatContainer {
+        width: 90%;
+        right: 5%;
+        bottom: 80px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .price {
+        font-size: 1.8rem;
+      }
+
+      /* Formulários mais compactos */
+      .form-input {
+        padding: 8px;
+      }
+
+      /* Esconde alguns elementos secundários */
+      .dificuldade, .tempo {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <i class="fas fa-chart-line"></i>
+      <span>TrackCripto</span>
+    </div>
+    <button id="themeToggle" class="btn" style="background: var(--card); color: var(--text);">
+      <i class="fas fa-moon"></i> Modo Escuro
+    </button>
+  </header>
+
+  <main>
+    <!-- Navigation Menu -->
+    <nav>
+      <a href="#crypto-data"><i class="fas fa-coins"></i> Cotações</a>
+      <a href="#fear-greed-section"><i class="fas fa-brain"></i> Fear & Greed</a>
+      <a href="#educativa"><i class="fas fa-graduation-cap"></i> Educação</a>
+      <a href="#risk-calculator"><i class="fas fa-calculator"></i> Calculadora</a>
+      <a href="#news"><i class="fas fa-newspaper"></i> Notícias</a>
+      <a href="#portfolio"><i class="fas fa-chart-pie"></i> Portfólio</a>
+    </nav>
+
+    <!-- Crypto Price Card -->
+    <div class="card" id="crypto-data">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 id="cryptoName">Bitcoin (BTC)</h2>
+        <div style="position:relative;">
+          <select id="moedaSelect" class="form-input">
+            <option value="bitcoin">BTC</option>
+            <option value="ethereum">ETH</option>
+            <option value="tether">USDT</option>
+            <option value="bnb">BNB</option>
+          </select>
+        </div>
+      </div>
+      <div class="price" id="price">R$ --</div>
+      <div id="variation">Variação 24h: --</div>
+    </div>
+
+    <!-- Advanced Metrics -->
+    <div class="card">
+      <h2><i class="fas fa-chart-bar"></i> Métricas Avançadas</h2>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <p><i class="fas fa-trophy"></i> Ranking</p>
+          <h3 id="rank">--</h3>
+        </div>
+        <div class="metric-card">
+          <p><i class="fas fa-coins"></i> Capitalização</p>
+          <h3 id="market-cap">R$ --</h3>
+        </div>
+        <div class="metric-card">
+          <p><i class="fas fa-exchange-alt"></i> Volume 24h</p>
+          <h3 id="volume">R$ --</h3>
+        </div>
+        <div class="metric-card">
+          <p><i class="fas fa-boxes"></i> Fornecimento</p>
+          <h3 id="supply">--</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="card">
+      <h2><i class="fas fa-chart-line"></i> Histórico de Preços (7 Dias)</h2>
+      <div class="chart-container">
+        <canvas id="graficoBTC"></canvas>
+      </div>
+    </div>
+
+    <!-- Índices de Mercado -->
+    <div class="card" id="market-indices">
+      <h2><i class="fas fa-globe"></i> Índices de Mercado</h2>
+
+      <div class="market-indices-grid">
+        <!-- Dominância BTC -->
+        <div class="index-card">
+          <div class="index-header">
+            <h3><i class="fab fa-bitcoin"></i> Dominância BTC</h3>
+            <div class="current-value" id="btcDominanceValue">--%</div>
+          </div>
+          
+          <div class="simplified-chart" id="btcDominanceChart">
+            <div class="chart-bar" id="btcDominanceBar"></div>
+          </div>
+          
+          <div class="chart-error" id="btcChartError" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i> Erro ao carregar
+          </div>
+        </div>
+
+        <!-- Altcoin Season -->
+        <div class="index-card">
+          <div class="index-header">
+            <h3><i class="fas fa-calendar-alt"></i> Altcoin Season</h3>
+            <div class="current-value" id="totalMarketCap">--.--B</div>
+          </div>
+          
+          <div class="season-status">
+            <div class="status-indicator" id="seasonIndicator"></div>
+            <div class="status-text" id="seasonStatusText">Verificando...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="update-footer">
+        <small>Última atualização: <span id="lastUpdateTime">--:--:--</span></small>
+        <button id="refreshIndicesBtn" class="refresh-btn">
+          <i class="fas fa-sync-alt"></i> Atualizar
+        </button>
+      </div>
+    </div>
+
+    <!-- Portfólio Simulador -->
+    <div class="card" id="portfolio">
+      <h2><i class="fas fa-chart-pie"></i> Meu Portfólio</h2>
+      <div class="portfolio-controls">
+        <button id="addAsset" class="btn"><i class="fas fa-plus"></i> Adicionar Ativo</button>
+        <button id="refreshPortfolio" class="btn" style="margin-left: 10px;"><i class="fas fa-sync-alt"></i>
+          Atualizar</button>
+      </div>
+      <div class="portfolio-chart">
+        <canvas id="portfolioChart"></canvas>
+      </div>
+      <div class="portfolio-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Ativo</th>
+              <th>Quantidade</th>
+              <th>Preço Médio</th>
+              <th>Valor Atual</th>
+              <th>Variação</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="portfolioAssets">
+            <!-- Dados dinâmicos -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Fear & Greed Index -->
+    <div class="card" id="fear-greed-section">
+      <h2><i class="fas fa-brain"></i> Índice Fear & Greed (BTC)</h2>
+      <div id="fear-greed">
+        <div id="fear-greed-indicator"></div>
+      </div>
+      <p id="fear-greed-text">Carregando...</p>
+      <small>Atualizado em: <span id="fg-update"></span></small>
+      <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-muted);">
+        <strong>Como usar:</strong> Quando o mercado está com "Medo Extremo", pode ser uma boa hora para comprar. Quando
+        está em "Euforia", pode ser hora de vender.
+      </p>
+    </div>
+
+    <!-- ============ NOVAS SEÇÕES ADICIONADAS ============ -->
+
+    <!-- Alertas de Preço -->
+    <div class="card" id="price-alerts">
+      <h2><i class="fas fa-bell"></i> Alertas de Preço</h2>
+      <div id="alertsContainer">
+        <!-- Alertas serão adicionados aqui -->
+      </div>
+      <button id="addAlertBtn" class="btn" style="margin-top:10px;">
+        <i class="fas fa-plus"></i> Criar Alerta
+      </button>
+    </div>
+
+    <!-- Calculadora de Trade -->
+    <div class="card" id="profit-calculator">
+      <h2><i class="fas fa-calculator"></i> Calculadora de Trade</h2>
+      <div>
+        <label>Moeda:</label>
+        <select id="calcCoin" class="form-input">
+          <option value="bitcoin">Bitcoin (BTC)</option>
+          <option value="ethereum">Ethereum (ETH)</option>
+          <option value="tether">Tether (USDT)</option>
+          <option value="bnb">BNB (BNB)</option>
+          <option value="solana">Solana (SOL)</option>
+          <option value="cardano">Cardano (ADA)</option>
+          <option value="xrp">XRP (XRP)</option>
+          <option value="dogecoin">Dogecoin (DOGE)</option>
+        </select>
+        <label>Quantidade:</label>
+        <input type="number" id="calcAmount" class="form-input" placeholder="Ex: 0.5">
+        <label>Preço de Compra (R$):</label>
+        <input type="number" id="calcBuyPrice" class="form-input" placeholder="Ex: 100000">
+        <label>Preço de Venda (R$):</label>
+        <input type="number" id="calcSellPrice" class="form-input" placeholder="Ex: 120000">
+        <button onclick="calculateProfit()" class="btn" style="margin-top:10px;">
+          <i class="fas fa-calculator"></i> Calcular
+        </button>
+      </div>
+      <div id="calcResult" style="display:none; margin-top:15px; padding:10px; background:rgba(0,255,136,0.1); border-radius:8px;">
+        <h3>Resultado:</h3>
+        <p id="calcProfit"></p>
+        <p id="calcPercentage"></p>
+      </div>
+    </div>
+
+    <!-- Risk Calculator -->
+    <div class="card" id="risk-calculator">
+      <h2><i class="fas fa-calculator"></i> Calculadora de Risco</h2>
+      <div style="margin: 15px 0;">
+        <label>Valor do Investimento (R$)</label>
+        <input type="number" id="investment" placeholder="Ex: 1000" class="form-input">
+        <label>Moeda:</label>
+        <select id="coin" class="form-input">
+          <option value="bitcoin">Bitcoin (BTC)</option>
+          <option value="ethereum">Ethereum (ETH)</option>
+          <option value="solana">Solana (SOL)</option>
+          <option value="cardano">Cardano (ADA)</option>
+        </select>
+        <button onclick="calculateRisk()" class="btn" style="margin-top: 10px;">
+          <i class="fas fa-calculator"></i> Calcular Risco
+        </button>
+      </div>
+      <div id="risk-result">
+        <h3>Recomendação:</h3>
+        <p id="risk-value"></p>
+        <p id="risk-explanation"></p>
+      </div>
+    </div>
+
+    <!-- News Section -->
+    <div class="card" id="news">
+      <h2><i class="fas fa-newspaper"></i> Últimas Notícias</h2>
+      <div id="news-container">
+        <p style="color: var(--text-muted);">Carregando notícias...</p>
+      </div>
+    </div>
+
+    <!-- Seção Educativa -->
+    <div class="card" id="educativa">
+      <h2><i class="fas fa-graduation-cap"></i> Educação Cripto</h2>
+
+      <!-- Abas de navegação -->
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="openTab('glossario')">Glossário</button>
+        <button class="tab-btn" onclick="openTab('tutoriais')">Tutoriais</button>
+      </div>
+
+      <!-- Conteúdo do Glossário -->
+      <div id="glossario" class="tab-content" style="display: block;">
+        <div class="search-box">
+          <input type="text" id="glossarioSearch" placeholder="Buscar termo..." class="form-input">
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="glossario-grid" id="glossarioContent"></div>
+      </div>
+
+      <!-- Conteúdo dos Tutoriais -->
+      <div id="tutoriais" class="tab-content">
+        <div class="tutoriais-grid" id="tutoriaisContent"></div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="card" id="contato">
+      <h2><i class="fas fa-envelope"></i> Fale Conosco</h2>
+      <form action="https://formsubmit.co/trackcripto@gmail.com" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://seusite.com/obrigado.html">
+        <div style="margin-bottom: 15px;">
+          <label>Seu Nome:</label>
+          <input type="text" name="name" class="form-input" required>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label>Seu Email:</label>
+          <input type="email" name="email" class="form-input" required>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label>Mensagem:</label>
+          <textarea name="message" class="form-input" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn">
+          <i class="fas fa-paper-plane"></i> Enviar Mensagem
+        </button>
+      </form>
+    </div>
+
+    <!-- Support Section -->
+    <div class="card" id="monetizacao" style="margin-top: 30px;">
+      <h2 style="color: #00ff88; text-align: center; margin-bottom: 25px;">
+        <i class="fas fa-hand-holding-heart" style="margin-right: 10px;"></i> Apoie o Projeto
+      </h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+        <!-- Pix Donation -->
+        <div
+          style="flex: 1; min-width: 250px; background: rgba(0, 255, 136, 0.1); padding: 20px; border-radius: 10px; border: 1px solid rgba(0, 255, 136, 0.3);">
+          <h3 style="color: #00ff88; text-align: center;">
+            <i class="fas fa-qrcode" style="margin-right: 8px;"></i> Doação via PIX
+          </h3>
+          <img src="qrcode-pix-trackcripto.png" width="180"
+            style="display: block; margin: 15px auto; border: 2px solid #00ff88; border-radius: 8px;">
+          <p style="text-align: center; color: #ffffff; word-break: break-all;">
+            Chave PIX: <strong style="color: #00ff88;">trackcripto@gmail.com</strong>
+          </p>
+        </div>
+
+        <!-- Affiliate Links -->
+        <div
+          style="flex: 1; min-width: 250px; background: rgba(0, 255, 136, 0.1); padding: 20px; border-radius: 10px; border: 1px solid rgba(0, 255, 136, 0.3);">
+          <h3 style="color: #00ff88; text-align: center;">
+            <i class="fas fa-link" style="margin-right: 8px;"></i> Indicamos
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+            <a href="https://www.binance.com/activity/referral-entry/CPA?ref=CPA_0062C7L8QA" target="_blank"
+              style="background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%); color: #1a1a2e; text-decoration: none; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; transition: transform 0.3s;">
+              <i class="fas fa-exchange-alt" style="margin-right: 8px;"></i> Binance (Taxas mais baixas)
+            </a>
+            <a href="https://br.tradingview.com/pricing/?share_your_love=brunnodev&mobileapp=true" target="_blank"
+              style="background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%); color: #1a1a2e; text-decoration: none; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; transition: transform 0.3s;">
+              <i class="fas fa-chart-line" style="margin-right: 8px;"></i> TradingView (Melhores gráficos)
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <!-- Adicione no footer -->
+<p>
+  <a href="#termos" style="color: var(--primary);">Termos de Uso</a> | 
+  <a href="#privacidade" style="color: var(--primary);">Política de Privacidade</a>
+</p>
+    <p>&copy; 2025 TrackCripto. Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- Chat IA -->
+  <div id="aiChatContainer">
+    <div
+      style="padding: 15px; background: rgba(0, 255, 136, 0.1); display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="color: #00ff88; margin: 0;"><i class="fas fa-robot"></i> Assistente Cripto</h3>
+      <button id="closeChat" style="background: none; border: none; color: #ffffff; cursor: pointer;"><i
+          class="fas fa-times"></i></button>
+    </div>
+    <div id="chatContent" style="padding: 15px; height: 300px; overflow-y: auto;">
+      <div style="background: rgba(0, 255, 136, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+        <p style="margin: 0; color: #00ff88;">Olá! Sou seu assistente de criptomoedas. Pergunte sobre BTC, ETH ou
+          estratégias de trading!</p>
+      </div>
+    </div>
+    <div style="padding: 15px; border-top: 1px solid rgba(0, 255, 136, 0.1); display: flex;">
+      <input type="text" id="userInput" placeholder="Digite sua pergunta..."
+        style="flex: 1; padding: 10px; border: 1px solid #00ff88; border-radius: 8px; background: rgba(0, 0, 0, 0.3); color: white;">
+      <button id="sendMessage"
+        style="background: #00ff88; color: #1a1a2e; border: none; padding: 0 15px; margin-left: 10px; border-radius: 8px; cursor: pointer;"><i
+          class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <button id="chatToggle">
+    <i class="fas fa-robot" style="font-size: 28px; color: #1a1a2e;"></i>
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    // VERSÃO COMPLETA E TESTADA - ATUALIZADA
+    document.addEventListener('DOMContentLoaded', async function () {
+      console.log("Iniciando TrackCripto...");
+
+      // 1. ELEMENTOS DA UI
+      const elements = {
+        price: document.getElementById('price'),
+        variation: document.getElementById('variation'),
+        rank: document.getElementById('rank'),
+        marketCap: document.getElementById('market-cap'),
+        volume: document.getElementById('volume'),
+        supply: document.getElementById('supply'),
+        fearGreedText: document.getElementById('fear-greed-text'),
+        fearGreedIndicator: document.getElementById('fear-greed-indicator'),
+        newsContainer: document.getElementById('news-container'),
+        chatInput: document.getElementById('userInput'),
+        chatContent: document.getElementById('chatContent'),
+        cryptoName: document.getElementById('cryptoName'),
+        riskValue: document.getElementById('risk-value'),
+        riskExplanation: document.getElementById('risk-explanation'),
+        riskResult: document.getElementById('risk-result')
+      };
+
+      // Lista de criptomoedas para o portfólio
+      const coins = [
+        { id: "bitcoin", name: "Bitcoin (BTC)" },
+        { id: "ethereum", name: "Ethereum (ETH)" },
+        { id: "tether", name: "Tether (USDT)" },
+        { id: "bnb", name: "BNB (BNB)" },
+        { id: "solana", name: "Solana (SOL)" },
+        { id: "cardano", name: "Cardano (ADA)" },
+        { id: "xrp", name: "XRP (XRP)" },
+        { id: "dogecoin", name: "Dogecoin (DOGE)" }
+      ];
+
+      // 2. FUNÇÃO DE FETCH COM TRATAMENTO DE ERROS
+      async function safeFetch(url) {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+          return await response.json();
+        } catch (error) {
+          console.error("Erro na requisição:", error);
+          return null;
+        }
+      }
+
+      // 3. ATUALIZAÇÃO DE DADOS DA CRIPTO
+      async function updateCryptoData() {
+        const moeda = document.getElementById('moedaSelect').value;
+        const data = await safeFetch(
+          `https://api.coingecko.com/api/v3/simple/price?ids=${moeda}&vs_currencies=brl&include_24hr_change=true`
+        );
+
+        if (data && data[moeda]) {
+          elements.price.textContent = `R$ ${data[moeda].brl.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+          const change = data[moeda].brl_24h_change;
+          elements.variation.innerHTML = `Variação 24h: <span style="color:${change >= 0 ? '#00ff88' : '#ff4d4d'}">${change.toFixed(2)}%</span>`;
+        }
+      }
+
+      // 4. MÉTRICAS AVANÇADAS
+      async function updateAdvancedMetrics() {
+        const moeda = document.getElementById('moedaSelect').value;
+        const data = await safeFetch(`https://api.coingecko.com/api/v3/coins/${moeda}`);
+
+        if (data) {
+          elements.rank.textContent = data.market_cap_rank || '--';
+          elements.marketCap.textContent = `R$ ${(data.market_data.market_cap.brl / 1000000000).toFixed(2)}B`;
+          elements.volume.textContent = `R$ ${(data.market_data.total_volume.brl / 1000000000).toFixed(1)}B`;
+          if (data.market_data.circulating_supply) {
+            elements.supply.textContent = `${data.market_data.circulating_supply.toLocaleString('pt-BR')} ${data.symbol.toUpperCase()}`;
+          }
+          elements.cryptoName.textContent = `${data.name} (${data.symbol.toUpperCase()})`;
+        }
+      }
+
+      // 5. FEAR & GREED INDEX
+      async function updateFearGreed() {
+        const data = await safeFetch('https://api.alternative.me/fng/?limit=1');
+
+        if (data && data.data) {
+          const value = data.data[0].value;
+          elements.fearGreedIndicator.style.left = `${value}%`;
+          elements.fearGreedText.textContent = `${value} - ${data.data[0].value_classification}`;
+          document.getElementById('fg-update').textContent = new Date(data.data[0].timestamp * 1000).toLocaleString('pt-BR');
+        }
+      }
+
+      // 6. GRÁFICO DE PREÇOS
+      async function initChart() {
+        const moeda = document.getElementById('moedaSelect').value;
+        const ctx = document.getElementById('graficoBTC').getContext('2d');
+        const data = await safeFetch(`https://api.coingecko.com/api/v3/coins/${moeda}/market_chart?vs_currency=brl&days=7`);
+
+        if (data) {
+          // Destrói gráfico anterior se existir
+          if (window.btcChart) {
+            window.btcChart.destroy();
+          }
+
+          // Formata os dados
+          const labels = data.prices.map(price =>
+            new Date(price[0]).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' })
+          );
+
+          const prices = data.prices.map(price => price[1]);
+
+          window.btcChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: `Preço ${moeda.toUpperCase()} (R$)`,
+                data: prices,
+                borderColor: '#00ff88',
+                backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                borderWidth: 2,
+                pointRadius: 3,
+                pointBackgroundColor: '#00ff88',
+                pointBorderColor: '#ffffff',
+                pointHoverRadius: 5,
+                fill: true,
+                tension: 0.4
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  labels: {
+                    color: '#ffffff',
+                    font: {
+                      size: 14
+                    }
+                  }
+                },
+                tooltip: {
+                  mode: 'index',
+                  intersect: false,
+                  backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                  titleColor: '#00ff88',
+                  bodyColor: '#ffffff',
+                  borderColor: '#00ff88',
+                  borderWidth: 1,
+                  padding: 12,
+                  callbacks: {
+                    label: function (context) {
+                      return ` R$ ${context.parsed.y.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+                    }
+                  }
+                }
+              },
+              scales: {
+                x: {
+                  grid: {
+                    color: 'rgba(255, 255, 255, 0.1)',
+                    drawBorder: false
+                  },
+                  ticks: {
+                    color: '#ffffff',
+                    maxRotation: 45,
+                    minRotation: 45
+                  }
+                },
+                y: {
+                  grid: {
+                    color: 'rgba(255, 255, 255, 0.1)',
+                    drawBorder: false
+                  },
+                  ticks: {
+                    color: '#ffffff',
+                    callback: function (value) {
+                      return `R$ ${value.toLocaleString('pt-BR')}`;
+                    }
+                  }
+                }
+              },
+              interaction: {
+                mode: 'nearest',
+                axis: 'x',
+                intersect: false
+              }
+            }
+          });
+        }
+      }
+
+      // 7. CALCULADORA DE RISCO
+      function setupRiskCalculator() {
+        document.getElementById('coin').addEventListener('change', function () {
+          document.getElementById('risk-result').style.display = 'none';
+        });
+
+        document.getElementById('investment').addEventListener('input', function () {
+          document.getElementById('risk-result').style.display = 'none';
+        });
+
+        // Atualize a função calculateRisk() para:
+        window.calculateRisk = function () {
+          const investment = parseFloat(document.getElementById('investment').value);
+          const coin = document.getElementById('coin').value;
+
+          if (!investment || investment <= 0) {
+            alert("Por favor, insira um valor válido!");
+            return;
+          }
+
+          const volatilityData = {
+            bitcoin: 2.1,
+            ethereum: 3.5,
+            solana: 4.8,
+            cardano: 3.2
+          };
+
+          const volatility = volatilityData[coin] || 3.0;
+          const maxRecommended = (investment * 0.02) / (volatility / 100);
+
+          document.getElementById('risk-value').innerHTML = `
+            <strong>Valor máximo recomendado por trade:</strong> R$ ${maxRecommended.toFixed(2)}<br>
+            <strong>Volatilidade histórica:</strong> ${volatility}%
+          `;
+
+          document.getElementById('risk-explanation').textContent =
+            `Baseado na volatilidade histórica do ${coin.toUpperCase()}, recomendamos não arriscar mais que R$ ${maxRecommended.toFixed(2)} em uma única operação.`;
+
+          document.getElementById('risk-result').style.display = 'block';
+        }
+      }
+
+      // 8. CHAT IA
+      function setupChat() {
+        const chatToggle = document.getElementById('chatToggle');
+        const chatContainer = document.getElementById('aiChatContainer');
+        const closeChat = document.getElementById('closeChat');
+
+        chatToggle.addEventListener('click', () => {
+          chatContainer.style.display = chatContainer.style.display === 'none' ? 'block' : 'none';
+        });
+
+        closeChat.addEventListener('click', () => {
+          chatContainer.style.display = 'none';
+        });
+
+        document.getElementById('sendMessage').addEventListener('click', sendMessage);
+        document.getElementById('userInput').addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') sendMessage();
+        });
+
+        function sendMessage() {
+          const message = elements.chatInput.value.trim();
+          if (!message) return;
+
+          // Mensagem do usuário
+          elements.chatContent.innerHTML += `
+            <div style="text-align:right; margin:10px 0">
+              <div style="display:inline-block; background:rgba(0,255,136,0.2); padding:8px 12px; border-radius:12px 12px 0 12px">
+                ${message}
+              </div>
+            </div>
+          `;
+
+          // Resposta da IA
+          setTimeout(() => {
+            elements.chatContent.innerHTML += `
+              <div style="margin:10px 0">
+                <div style="display:inline-block; background:rgba(0,255,136,0.1); padding:8px 12px; border-radius:12px 12px 12px 0">
+                  ${getAIResponse(message)}
+                </div>
+              </div>
+            `;
+            elements.chatContent.scrollTop = elements.chatContent.scrollHeight;
+          }, 500);
+
+          elements.chatInput.value = '';
+        }
+
+        function getAIResponse(message) {
+          const lowerMsg = message.toLowerCase();
+          const responses = {
+            bitcoin: [
+              `📊 BTC está cotado a ${elements.price.textContent} (${document.getElementById('variation').textContent})`,
+              "🔍 Bitcoin está mostrando forte resistência nos níveis atuais!",
+              "💡 Dica: Analise o gráfico para identificar tendências"
+            ],
+            ethereum: [
+              "🦄 Ethereum está em alta com a próxima atualização da rede",
+              "💎 ETH/BTC pair mostra fortalecimento"
+            ],
+            default: [
+              "Pergunte sobre Bitcoin ou Ethereum!",
+              "Posso ajudar com análises de BTC e ETH"
+            ]
+          };
+
+          if (lowerMsg.includes('bitcoin') || lowerMsg.includes('btc')) {
+            return responses.bitcoin[Math.floor(Math.random() * responses.bitcoin.length)];
+          } else if (lowerMsg.includes('ethereum') || lowerMsg.includes('eth')) {
+            return responses.ethereum[Math.floor(Math.random() * responses.ethereum.length)];
+          }
+          return responses.default[Math.floor(Math.random() * responses.default.length)];
+        }
+      }
+
+      // 9. NOTÍCIAS
+      async function loadNews() {
+        try {
+          // API alternativa para notícias (substitua por uma API real se necessário)
+          elements.newsContainer.innerHTML = `
+            <div style="margin-bottom:15px">
+              <h3>Bitcoin atinge novo recorde histórico</h3>
+              <p style="color:#aaa">O BTC superou a marca de R$ 650k nesta semana</p>
+              <a href="#" style="color:#00ff88">Leia mais</a>
+            </div>
+            <div style="margin-bottom:15px">
+              <h3>Ethereum anuncia atualização da rede</h3>
+              <p style="color:#aaa">A atualização deve melhorar as taxas de transação</p>
+              <a href="#" style="color:#00ff88">Leia mais</a>
+            </div>
+          `;
+        } catch (error) {
+          console.error("Erro ao carregar notícias:", error);
+          elements.newsContainer.innerHTML = '<p style="color:#ff4d4d">Notícias indisponíveis no momento</p>';
+        }
+      }
+
+      // 10. ÍNDICES DE MERCADO - VERSÃO FINAL
+      const MarketIndices = {
+        init() {
+          this.setupEventListeners();
+          this.loadInitialData();
+        },
+
+        setupEventListeners() {
+          const refreshBtn = document.getElementById('refreshIndicesBtn');
+          if (refreshBtn) {
+            refreshBtn.addEventListener('click', () => {
+              this.loadData();
+            });
+          }
+        },
+
+        loadInitialData() {
+          this.loadData();
+          setInterval(() => this.loadData(), 300000); // Atualiza a cada 5 minutos
+        },
+
+        async loadData() {
+          this.showLoadingState(true);
+          
+          try {
+            const data = await this.fetchMarketData();
+            this.updateMarketUI(data);
+          } catch (error) {
+            console.error("Erro ao carregar dados:", error);
+            this.showErrorState();
+          }
+        },
+
+        async fetchMarketData() {
+          const response = await fetch('https://api.coingecko.com/api/v3/global');
+          if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+          const data = await response.json();
+          return data.data;
+        },
+
+        updateMarketUI(data) {
+          this.updateTimestamp();
+          this.updateBTCDominance(data.market_cap_percentage.btc);
+          this.updateAltcoinSeason(data);
+        },
+
+        updateTimestamp() {
+          const timeElement = document.getElementById('lastUpdateTime');
+          if (timeElement) {
+            timeElement.textContent = new Date().toLocaleTimeString('pt-BR', { 
+              hour: '2-digit', 
+              minute: '2-digit' 
+            });
+          }
+        },
+
+        updateBTCDominance(btcDominance) {
+          const dominanceValue = btcDominance.toFixed(1);
+          const valueElement = document.getElementById('btcDominanceValue');
+          const barElement = document.getElementById('btcDominanceBar');
+
+          if (valueElement) valueElement.textContent = `${dominanceValue}%`;
+          if (barElement) barElement.style.width = `${dominanceValue}%`;
+        },
+
+        updateAltcoinSeason(data) {
+          const btcDominance = data.market_cap_percentage.btc;
+          const totalMarketCap = (data.total_market_cap.usd / 1000000000).toFixed(2);
+          const altcoinDominance = 100 - btcDominance;
+          
+          const marketCapElement = document.getElementById('totalMarketCap');
+          const seasonIndicator = document.getElementById('seasonIndicator');
+          const statusTextElement = document.getElementById('seasonStatusText');
+          const errorElement = document.getElementById('btcChartError');
+
+          if (marketCapElement) marketCapElement.textContent = `$${totalMarketCap}B`;
+          
+          if (seasonIndicator) {
+            seasonIndicator.style.background = 
+              `linear-gradient(90deg, #2ecc71 ${altcoinDominance}%, #e0e0e0 ${altcoinDominance}%)`;
+          }
+          
+          if (statusTextElement) {
+            statusTextElement.textContent = 
+              altcoinDominance > 35 ? "🚀 ALTCOIN SEASON!" : `📉 Bitcoin Dominante (${btcDominance.toFixed(1)}%)`;
+          }
+          
+          if (errorElement) errorElement.style.display = 'none';
+        },
+
+        showLoadingState(loading) {
+          const loadingText = loading ? '...' : '';
+          const loadingStatus = loading ? 'Atualizando...' : '';
+          
+          const valueElement = document.getElementById('btcDominanceValue');
+          const statusElement = document.getElementById('seasonStatusText');
+          
+          if (valueElement) valueElement.textContent = loadingText;
+          if (statusElement) statusElement.textContent = loadingStatus;
+        },
+
+        showErrorState() {
+          const errorElement = document.getElementById('btcChartError');
+          const statusElement = document.getElementById('seasonStatusText');
+          
+          if (errorElement) errorElement.style.display = 'block';
+          if (statusElement) statusElement.textContent = 'Dados temporariamente indisponíveis';
+        }
+      };
+
+      // 11. PORTFÓLIO SIMULADOR
+      class PortfolioSimulator {
+        constructor() {
+          this.assets = JSON.parse(localStorage.getItem('portfolio')) || [];
+          this.init();
+        }
+
+        init() {
+          document.getElementById('addAsset').addEventListener('click', this.showAddDialog.bind(this));
+          document.getElementById('refreshPortfolio').addEventListener('click', this.refreshPortfolio.bind(this));
+          this.render();
+        }
+
+        showAddDialog() {
+          // Modal para adicionar novo ativo
+          Swal.fire({
+            title: 'Adicionar Ativo',
+            html: `
+              <select id="swalCoin" class="swal2-select">
+                ${coins.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+              </select>
+              <input type="number" id="swalAmount" placeholder="Quantidade" class="swal2-input">
+              <input type="number" id="swalPrice" placeholder="Preço pago (R$)" class="swal2-input">
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Adicionar',
+            preConfirm: () => {
+              return {
+                coin: document.getElementById('swalCoin').value,
+                amount: parseFloat(document.getElementById('swalAmount').value),
+                buyPrice: parseFloat(document.getElementById('swalPrice').value)
+              }
+            }
+          }).then(result => {
+            if (result.isConfirmed) {
+              this.addAsset(result.value);
+            }
+          });
+        }
+
+        addAsset(asset) {
+          this.assets.push(asset);
+          this.save();
+          this.render();
+
+          // Microinteração: Confirmação visual
+          const confirmation = document.createElement('div');
+          confirmation.className = 'portfolio-confirmation';
+          confirmation.innerHTML = `<i class="fas fa-check"></i> ${asset.coin} adicionado!`;
+          document.getElementById('portfolio').appendChild(confirmation);
+          setTimeout(() => confirmation.remove(), 2000);
+        }
+
+        removeAsset(index) {
+          this.assets.splice(index, 1);
+          this.save();
+          this.render();
+        }
+
+        async refreshPortfolio() {
+          // Mostra animação de atualização
+          document.getElementById('portfolio').classList.add('updating');
+          setTimeout(() => {
+            document.getElementById('portfolio').classList.remove('updating');
+          }, 1000);
+
+          this.render();
+        }
+
+        save() {
+          localStorage.setItem('portfolio', JSON.stringify(this.assets));
+        }
+
+        async render() {
+          // Atualiza tabela e gráfico de pizza
+          await this.updateTable();
+          this.updateChart();
+        }
+
+        async updateTable() {
+          const tableBody = document.getElementById('portfolioAssets');
+          tableBody.innerHTML = '';
+
+          if (this.assets.length === 0) {
+            tableBody.innerHTML = `
+              <tr>
+                <td colspan="6" style="text-align: center; color: var(--text-muted);">
+                  Nenhum ativo adicionado. Clique em "Adicionar Ativo" para começar.
+                </td>
+              </tr>
+            `;
+            return;
+          }
+
+          // Busca preços atuais em paralelo
+          const coinIds = this.assets.map(a => a.coin);
+          const pricesResponse = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinIds.join(',')}&vs_currencies=brl`);
+          const prices = await pricesResponse.json();
+
+          let totalValue = 0;
+          let totalProfit = 0;
+
+          this.assets.forEach((asset, index) => {
+            const currentPrice = prices[asset.coin]?.brl || 0;
+            const value = asset.amount * currentPrice;
+            const cost = asset.amount * asset.buyPrice;
+            const profit = value - cost;
+            const profitPercentage = (profit / cost) * 100;
+
+            totalValue += value;
+            totalProfit += profit;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${coins.find(c => c.id === asset.coin)?.name || asset.coin}</td>
+              <td>${asset.amount.toLocaleString('pt-BR')}</td>
+              <td>R$ ${asset.buyPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+              <td>R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+              <td style="color:${profit >= 0 ? '#00ff88' : '#ff4d4d'}">
+                ${profit >= 0 ? '+' : ''}${profit.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (${profitPercentage.toFixed(2)}%)
+              </td>
+              <td>
+                <button class="btn" style="padding: 5px 10px; background: var(--error);" onclick="portfolio.removeAsset(${index})">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            `;
+            tableBody.appendChild(row);
+          });
+
+          // Adiciona linha de totais
+          const totalRow = document.createElement('tr');
+          totalRow.style.fontWeight = 'bold';
+          totalRow.innerHTML = `
+            <td colspan="3">Total</td>
+            <td>R$ ${totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+            <td style="color:${totalProfit >= 0 ? '#00ff88' : '#ff4d4d'}">
+              ${totalProfit >= 0 ? '+' : ''}${totalProfit.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+            </td>
+            <td></td>
+          `;
+          tableBody.appendChild(totalRow);
+        }
+
+        updateChart() {
+          const ctx = document.getElementById('portfolioChart').getContext('2d');
+
+          if (this.assets.length === 0) {
+            if (window.portfolioChart) {
+              window.portfolioChart.destroy();
+            }
+            return;
+          }
+
+          // Agrupa ativos por moeda
+          const grouped = {};
+          this.assets.forEach(asset => {
+            if (!grouped[asset.coin]) {
+              grouped[asset.coin] = {
+                amount: 0,
+                buyPrice: asset.buyPrice,
+                name: coins.find(c => c.id === asset.coin)?.name || asset.coin
+              };
+            }
+            grouped[asset.coin].amount += asset.amount;
+          });
+
+          // Prepara dados para o gráfico
+          const labels = Object.keys(grouped).map(coinId => grouped[coinId].name);
+          const data = Object.keys(grouped).map(coinId => {
+            return grouped[coinId].amount * grouped[coinId].buyPrice;
+          });
+
+          const backgroundColors = [
+            '#00ff88', '#00cc6a', '#00994c',
+            '#00662e', '#003319', '#00a55a',
+            '#008548', '#006536'
+          ];
+
+          if (window.portfolioChart) {
+            window.portfolioChart.destroy();
+          }
+
+          window.portfolioChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: labels,
+              datasets: [{
+                data: data,
+                backgroundColor: backgroundColors,
+                borderColor: 'rgba(0, 0, 0, 0.1)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'right',
+                  labels: {
+                    color: 'var(--text)'
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      return ` R$ ${context.raw.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      }
+
+      // 12. ALERTAS DE PREÇO - NOVA CLASSE ADICIONADA
+      class PriceAlerts {
+        constructor() {
+          this.alerts = JSON.parse(localStorage.getItem('priceAlerts')) || [];
+          this.init();
+        }
+
+        init() {
+          document.getElementById('addAlertBtn').addEventListener('click', () => this.showAddDialog());
+          this.render();
+          setInterval(() => this.checkAlerts(), 300000); // Verifica a cada 5 minutos
+        }
+
+        showAddDialog() {
+          const currentCoin = document.getElementById('moedaSelect').value;
+          Swal.fire({
+            title: 'Criar Alerta',
+            html: `
+              <select id="swalAlertCoin" class="swal2-select">
+                ${coins.map(c => `<option value="${c.id}" ${c.id === currentCoin ? 'selected' : ''}>${c.name}</option>`).join('')}
+              </select>
+              <select id="swalAlertCondition" class="swal2-select">
+                <option value="above">Acima de</option>
+                <option value="below">Abaixo de</option>
+              </select>
+              <input type="number" id="swalAlertPrice" placeholder="Preço em R$" class="swal2-input" step="0.0001">
+            `,
+            confirmButtonText: 'Salvar',
+            preConfirm: () => {
+              return {
+                coin: document.getElementById('swalAlertCoin').value,
+                condition: document.getElementById('swalAlertCondition').value,
+                price: parseFloat(document.getElementById('swalAlertPrice').value),
+                id: Date.now()
+              };
+            }
+          }).then(result => {
+            if (result.isConfirmed) {
+              this.addAlert(result.value);
+            }
+          });
+        }
+
+        addAlert(alert) {
+          this.alerts.push(alert);
+          this.save();
+          this.render();
+          Swal.fire('Sucesso!', 'Alerta criado com sucesso.', 'success');
+        }
+
+        async checkAlerts() {
+          if (this.alerts.length === 0) return;
+          
+          const coinIds = [...new Set(this.alerts.map(a => a.coin))];
+          const prices = await safeFetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinIds.join(',')}&vs_currencies=brl`);
+          
+          this.alerts.forEach(alert => {
+            const currentPrice = prices[alert.coin]?.brl;
+            if (!currentPrice) return;
+
+            const isTriggered = (
+              (alert.condition === 'above' && currentPrice >= alert.price) ||
+              (alert.condition === 'below' && currentPrice <= alert.price)
+            );
+
+            if (isTriggered) {
+              this.triggerAlert(alert, currentPrice);
+            }
+          });
+        }
+
+        triggerAlert(alert, currentPrice) {
+          // Remove o alerta após disparar
+          this.alerts = this.alerts.filter(a => a.id !== alert.id);
+          this.save();
+          this.render();
+
+          // Notificação
+          Swal.fire({
+            title: 'Alerta Disparado!',
+            html: `<b>${coins.find(c => c.id === alert.coin)?.name}</b> está <b>R$ ${currentPrice.toFixed(2)}</b><br>
+                   (${alert.condition === 'above' ? 'Acima' : 'Abaixo'} de R$ ${alert.price.toFixed(2)})`,
+            icon: 'info',
+            confirmButtonText: 'OK'
+          });
+        }
+
+        render() {
+          const container = document.getElementById('alertsContainer');
+          container.innerHTML = this.alerts.length === 0
+            ? '<p style="color:var(--text-muted); text-align:center;">Nenhum alerta ativo</p>'
+            : this.alerts.map(alert => `
+                <div class="alert-item">
+                  <div>
+                    <strong>${coins.find(c => c.id === alert.coin)?.name}</strong><br>
+                    <small>${alert.condition === 'above' ? 'Acima de' : 'Abaixo de'} R$ ${alert.price.toFixed(2)}</small>
+                  </div>
+                  <button onclick="alerts.removeAlert(${alert.id})" style="background:none; border:none; color:var(--error); cursor:pointer;">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              `).join('');
+        }
+
+        removeAlert(id) {
+          this.alerts = this.alerts.filter(a => a.id !== id);
+          this.save();
+          this.render();
+        }
+
+        save() {
+          localStorage.setItem('priceAlerts', JSON.stringify(this.alerts));
+        }
+      }
+
+      // 13. CALCULADORA DE TRADE - NOVA FUNÇÃO ADICIONADA
+      window.calculateProfit = function() {
+        const coin = document.getElementById('calcCoin').value;
+        const amount = parseFloat(document.getElementById('calcAmount').value);
+        const buyPrice = parseFloat(document.getElementById('calcBuyPrice').value);
+        const sellPrice = parseFloat(document.getElementById('calcSellPrice').value);
+
+        if (!amount || !buyPrice || !sellPrice) {
+          Swal.fire('Erro', 'Preencha todos os campos!', 'error');
+          return;
+        }
+
+        const profit = (sellPrice - buyPrice) * amount;
+        const percentage = ((sellPrice / buyPrice) - 1) * 100;
+
+        document.getElementById('calcProfit').innerHTML = `
+          <strong>Lucro/Prejuízo:</strong> R$ ${profit.toFixed(2)} 
+          <span style="color:${profit >= 0 ? '#00ff88' : '#ff4d4d'}">
+            (${profit >= 0 ? '+' : ''}${profit.toFixed(2)})
+          </span>
+        `;
+
+        document.getElementById('calcPercentage').innerHTML = `
+          <strong>Variação:</strong> 
+          <span style="color:${percentage >= 0 ? '#00ff88' : '#ff4d4d'}">
+            ${percentage >= 0 ? '+' : ''}${percentage.toFixed(2)}%
+          </span>
+        `;
+
+        document.getElementById('calcResult').style.display = 'block';
+      };
+
+      // 14. MICROINTERAÇÕES
+      function setupMicrointeractions() {
+        // Atualização de dados
+        document.querySelectorAll('[data-refresh]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            btn.querySelector('i').classList.add('fa-spin');
+            setTimeout(() => {
+              btn.querySelector('i').classList.remove('fa-spin');
+            }, 1000);
+          });
+        });
+
+        // Efeito de hover em cards
+        document.querySelectorAll('.card').forEach(card => {
+          card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-5px)';
+            card.style.boxShadow = '0 10px 20px rgba(0, 255, 136, 0.2)';
+          });
+
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+            card.style.boxShadow = '';
+          });
+        });
+      }
+
+      // 15. SEÇÃO EDUCATIVA
+      function setupEducativa() {
+        // Dados do glossário
+        const glossario = [
+          {
+            termo: "Blockchain",
+            definicao: "Tecnologia de registro distribuído que mantém registros permanentes e à prova de violação de dados."
+          },
+          {
+            termo: "Wallet",
+            definicao: "Carteira digital usada para armazenar, enviar e receber criptomoedas."
+          },
+          {
+            termo: "DeFi",
+            definicao: "Sistemas financeiros descentralizados que operam sem intermediários como bancos."
+          },
+          {
+            termo: "NFT",
+            definicao: "Token não fungível que representa propriedade de um item digital único."
+          },
+          {
+            termo: "Smart Contract",
+            definicao: "Contrato auto-executável com termos escritos em código de programação."
+          },
+          {
+            termo: "Stablecoin",
+            definicao: "Criptomoeda atrelada a um ativo estável como o dólar americano."
+          }
+        ];
+
+        // Dados dos tutoriais
+        const tutoriais = [
+          {
+            titulo: "Como Criar sua Primeira Carteira",
+            descricao: "Guia passo a passo para configurar uma carteira de criptomoedas segura.",
+            dificuldade: "Iniciante",
+            tempo: "5 min"
+          },
+          {
+            titulo: "Primeira Compra de Bitcoin",
+            descricao: "Aprenda a comprar seu primeiro Bitcoin em uma exchange confiável.",
+            dificuldade: "Iniciante",
+            tempo: "10 min"
+          },
+          {
+            titulo: "Segurança Avançada para Carteiras",
+            descricao: "Técnicas profissionais para proteger seus ativos digitais.",
+            dificuldade: "Avançado",
+            tempo: "15 min"
+          }
+        ];
+
+        // Carrega o glossário
+        const glossarioContent = document.getElementById('glossarioContent');
+        glossario.forEach(termo => {
+          glossarioContent.innerHTML += `
+            <div class="termo-card">
+              <h3>${termo.termo}</h3>
+              <p>${termo.definicao}</p>
+            </div>
+          `;
+        });
+
+        // Carrega os tutoriais
+        const tutoriaisContent = document.getElementById('tutoriaisContent');
+        tutoriais.forEach(tutorial => {
+          tutoriaisContent.innerHTML += `
+            <div class="tutorial-card" onclick="openTutorial('${tutorial.titulo}')">
+              <span class="dificuldade">${tutorial.dificuldade}</span>
+              <h3>${tutorial.titulo}</h3>
+              <p>${tutorial.descricao}</p>
+              <div class="tempo"><i class="far fa-clock"></i> ${tutorial.tempo}</div>
+            </div>
+          `;
+        });
+
+        // Busca no glossário
+        document.getElementById('glossarioSearch').addEventListener('input', (e) => {
+          const searchTerm = e.target.value.toLowerCase();
+          const cards = document.querySelectorAll('.termo-card');
+
+          cards.forEach(card => {
+            const termo = card.querySelector('h3').textContent.toLowerCase();
+            card.style.display = termo.includes(searchTerm) ? 'block' : 'none';
+          });
+        });
+      }
+
+      // Funções para abrir abas e tutoriais
+      function openTab(tabName) {
+        const tabContents = document.querySelectorAll('.tab-content');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+
+        tabContents.forEach(tab => {
+          tab.style.display = 'none';
+        });
+
+        tabButtons.forEach(btn => {
+          btn.classList.remove('active');
+        });
+
+        document.getElementById(tabName).style.display = 'block';
+        event.currentTarget.classList.add('active');
+      }
+
+      function openTutorial(title) {
+        alert(`Abrindo tutorial: ${title}\n\nEsta funcionalidade pode ser expandida para mostrar um modal ou página detalhada.`);
+      }
+
+      // 16. THEME TOGGLE
+      function setupThemeToggle() {
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+
+        // Verifica o tema salvo ou preferência do sistema
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', initialTheme);
+        updateToggleButton(initialTheme);
+
+        // Alterna entre temas
+        themeToggle.addEventListener('click', () => {
+          const currentTheme = document.documentElement.getAttribute('data-theme');
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+          document.documentElement.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          updateToggleButton(newTheme);
+        });
+
+        function updateToggleButton(theme) {
+          if (theme === 'dark') {
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i> Modo Escuro';
+            themeToggle.style.backgroundColor = 'var(--card)';
+            themeToggle.style.color = 'var(--text)';
+          } else {
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
+            themeToggle.style.backgroundColor = 'var(--primary)';
+            themeToggle.style.color = '#000';
+          }
+        }
+      }
+
+      // 17. INICIALIZAÇÃO COMPLETA
+      async function initApp() {
+        setupThemeToggle();
+        await updateCryptoData();
+        await updateAdvancedMetrics();
+        await updateFearGreed();
+        await initChart();
+        setupChat();
+        loadNews();
+
+        // Inicializa novas funcionalidades
+        window.portfolio = new PortfolioSimulator();
+        window.alerts = new PriceAlerts(); // Inicializa os alertas
+        MarketIndices.init();
+        setupMicrointeractions();
+        setupEducativa();
+        setupRiskCalculator();
+
+        // Configura listeners para atualização quando a moeda é alterada
+        document.getElementById('moedaSelect').addEventListener('change', async () => {
+          await updateCryptoData();
+          await updateAdvancedMetrics();
+          await initChart();
+        });
+
+        // Atualizações periódicas
+        setInterval(updateCryptoData, 300000); // 5 minutos
+        setInterval(updateFearGreed, 3600000); // 1 hora
+
+        console.log("TrackCripto totalmente carregado!");
+      }
+
+      // Inicia o aplicativo
+      initApp();
+    });
+  </script>
+</body>
+
+</html>
