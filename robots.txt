@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://trackcriipto.netlify.app//sitemap.xml
