@@ -8,7 +8,7 @@
   <meta property="og:title" content="TrackCripto • Ferramentas Cripto">
   <meta property="og:description"
     content="Veja sinais de compra ou venda com base no medo e euforia do mercado cripto.">
-  <meta property="og:image" content="https://trackcripto.netlify.app/assets/share-trackcripto.png">
+  <meta property="og:image" content="https://trackcripto.netlify.app/assets/share-trackkcriptoo.png">
   <meta property="og:url" content="https://trackcripto.netlify.app">
   <meta property="og:type" content="website">
   <meta property="og:image:width" content="1200">
@@ -124,7 +124,26 @@
       color: var(--primary);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 0px;
+    }
+
+    .logo-track {
+      color: var(--text);
+    }
+
+    .logo-crypto {
+      color: var(--primary);
+    }
+
+    /* Ajustes para modo claro */
+    [data-theme="light"] .logo-track {
+      color: var(--text);
+      /* Preto (#333) no modo claro */
+    }
+
+    [data-theme="light"] .logo-crypto {
+      color: var(--primary-dark);
+      /* Verde mais suave (#00A55A) */
     }
 
     .card {
@@ -674,14 +693,97 @@
         display: none;
       }
     }
+
+    /* ANIMAÇÃO DE ENTRADA (Fade-in) */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Aplica a animação nos elementos principais */
+    header,
+    section,
+    footer {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    /* Delay para sections (efeito cascata) */
+    section:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    section:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    /* ANIMAÇÃO AO ROLAR (Scroll-triggered) */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-up {
+      opacity: 0;
+      /* Inicia invisível */
+    }
+
+    .slide-up.animated {
+      animation: slideUp 0.3s ease-out forwards;
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary);
+      color: var(--bg);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-5px);
+      background: var(--primary-dark);
+    }
   </style>
 </head>
+
+<button id="backToTop" class="back-to-top" aria-label="Voltar ao topo">
+    <i class="fas fa-arrow-up"></i>
+  </button>
 
 <body>
   <header>
     <div class="logo">
-      <i class="fas fa-chart-line"></i>
-      <span>TrackCripto</span>
+      <span class="logo-track">Track</span>
+      <span class="logo-crypto">Cripto</span>
     </div>
     <button id="themeToggle" class="btn" style="background: var(--card); color: var(--text);">
       <i class="fas fa-moon"></i> Modo Escuro
@@ -2046,7 +2148,45 @@
       // Inicia o aplicativo
       initApp();
     });
+
+
+    // Ativa animações ao rolar
+    document.addEventListener('DOMContentLoaded', () => {
+      const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.slide-up');
+        elements.forEach(el => {
+          const elTop = el.getBoundingClientRect().top;
+          if (elTop < window.innerHeight * 0.8) {
+            el.classList.add('animated');
+          }
+        });
+      };
+
+      window.addEventListener('scroll', animateOnScroll);
+      animateOnScroll(); // Executa ao carregar
+    });
+
+    // Botão "voltar ao topo"
+    const backToTopBtn = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
   </script>
+
+
 </body>
 
 </html>
