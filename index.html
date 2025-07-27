@@ -187,6 +187,26 @@
       margin-top: 15px;
     }
 
+    .chart-container {
+      height: 200px !important;
+      /* Altura reduzida */
+      background: rgba(0, 0, 0, 0.1);
+      padding: 10px !important;
+      /* Padding menor */
+    }
+
+    /* Ajusta o card pai */
+    .card {
+      padding: 15px;
+      margin: 10px 0;
+    }
+
+    /* Título compacto */
+    .card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1088,26 +1108,106 @@
 
   <main>
     <!-- Navigation Menu -->
-    <nav class="categories-grid">
-      <div class="category-row">
-      <a href="#crypto-data"><i class="fas fa-coins"></i> Cotações</a>
-      <a href="#fear-greed-section"><i class="fas fa-brain"></i> Fear & Greed</a>
-      <a href="#educativa"><i class="fas fa-graduation-cap"></i> Educação</a>
-      <a href="#risk-calculator"><i class="fas fa-calculator"></i> Calculadora</a>
-      <a href="#news"><i class="fas fa-newspaper"></i> Notícias</a>
+    <nav class="mobile-nav">
+      <!-- Linha 1 -->
+      <div class="nav-row">
+        <a href="#crypto-data" class="nav-item active">
+          <i class="fas fa-coins"></i>
+          <span>Cotações</span>
+        </a>
+        <a href="#educativa" class="nav-item">
+          <i class="fas fa-graduation-cap"></i>
+          <span>Educação</span>
+        </a>
+        <a href="#news" class="nav-item">
+          <i class="fas fa-newspaper"></i>
+          <span>Notícias</span>
+        </a>
       </div>
 
-      <div class="category-row">
-      <a href="#portfolio"><i class="fas fa-chart-pie"></i> Portfólio</a>
-      <a href="#liquidations-map"><i class="fas fa-water"></i> Liquidações</a>
-      <a href="#pump-simulator"><i class="fas fa-bolt"></i> Pump/Dump</a>
-      <a href="#alertas-preco"><i class="fas fa-bell"></i> Alertas de Preço</a>
-      <a href="#plataformas"><i class="fas fa-link"></i> Plataformas</a>
+      <!-- Linha 2 -->
+      <div class="nav-row">
+        <a href="#portfolio" class="nav-item">
+          <i class="fas fa-chart-pie"></i>
+          <span>Portfólio</span>
+        </a>
+        <a href="#pump-simulator" class="nav-item">
+          <i class="fas fa-bolt"></i>
+          <span>Pump/Dump</span>
+        </a>
+        <a href="#plataformas" class="nav-item">
+          <i class="fas fa-link"></i>
+          <span>Plataformas</span>
+        </a>
+      </div>
+
+      <!-- Linha 3 (Agora com Calculadora de Risco) -->
+      <div class="nav-row">
+        <a href="#liquidations-map" class="nav-item">
+          <i class="fas fa-water"></i>
+          <span>Liquidações</span>
+        </a>
+        <a href="#alertas-preco" class="nav-item">
+          <i class="fas fa-bell"></i>
+          <span>Alertas</span>
+        </a>
+        <a href="#risk-calculator" class="nav-item">
+          <i class="fas fa-calculator"></i>
+          <span>Risco</span>
+        </a>
       </div>
     </nav>
 
     <style>
-      
+      /* Reset para evitar bugs */
+      .mobile-nav {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0 10px;
+        /* Evita vazamento lateral */
+      }
+
+      .nav-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        gap: 5px;
+        width: 100%;
+        overflow: hidden;
+        /* Previne overflow */
+      }
+
+      .nav-item {
+        flex: 1;
+        min-width: 0;
+        /* Permite quebra de texto */
+        padding: 12px 5px;
+        background: rgba(0, 255, 136, 0.1);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        /* Centraliza texto */
+        word-break: break-word;
+        /* Quebra palavras longas */
+      }
+
+      /* Correção para itens bugados */
+      .nav-item span {
+        display: inline-block;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        /* (...) se muito longo */
+      }
+
+      /* Estado ativo */
+      .nav-item.active {
+        background: rgba(0, 255, 136, 0.2);
+        border: 1px solid var(--primary);
+      }
     </style>
 
     <!-- Crypto Price Card -->
@@ -1645,18 +1745,14 @@
         const data = await safeFetch(`https://api.coingecko.com/api/v3/coins/${moeda}/market_chart?vs_currency=brl&days=7`);
 
         if (data) {
-          // Destrói gráfico anterior se existir
-          if (window.btcChart) {
-            window.btcChart.destroy();
-          }
+          if (window.btcChart) window.btcChart.destroy();
 
-          // Formata os dados
           const labels = data.prices.map(price =>
             new Date(price[0]).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' })
           );
-
           const prices = data.prices.map(price => price[1]);
 
+          // Configuração otimizada para mobile
           window.btcChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -1665,14 +1761,13 @@
                 label: `Preço ${moeda.toUpperCase()} (R$)`,
                 data: prices,
                 borderColor: '#00ff88',
-                backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                backgroundColor: 'rgba(0, 255, 136, 0.05)',
                 borderWidth: 2,
-                pointRadius: 3,
+                pointRadius: mobile ? 2 : 3, // Pontos menores em mobile
                 pointBackgroundColor: '#00ff88',
-                pointBorderColor: '#ffffff',
-                pointHoverRadius: 5,
+                pointHoverRadius: 4,
                 fill: true,
-                tension: 0.4
+                tension: 0.3 // Linha mais suave
               }]
             },
             options: {
@@ -1680,64 +1775,43 @@
               maintainAspectRatio: false,
               plugins: {
                 legend: {
-                  labels: {
-                    color: '#ffffff',
-                    font: {
-                      size: 14
-                    }
-                  }
+                  display: false // Remove a legenda em mobile
                 },
                 tooltip: {
                   mode: 'index',
                   intersect: false,
-                  backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                  titleColor: '#00ff88',
-                  bodyColor: '#ffffff',
-                  borderColor: '#00ff88',
-                  borderWidth: 1,
-                  padding: 12,
+                  displayColors: false,
                   callbacks: {
-                    label: function (context) {
-                      return ` R$ ${context.parsed.y.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-                    }
+                    label: (ctx) => `R$ ${ctx.parsed.y.toLocaleString('pt-BR')}`
                   }
                 }
               },
               scales: {
                 x: {
-                  grid: {
-                    color: 'rgba(255, 255, 255, 0.1)',
-                    drawBorder: false
-                  },
+                  grid: { display: false }, // Remove grid vertical
                   ticks: {
-                    color: '#ffffff',
-                    maxRotation: 45,
-                    minRotation: 45
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    maxRotation: 0, // Rótulos horizontais
+                    autoSkip: true,
+                    maxTicksLimit: mobile ? 4 : 7 // Mostra apenas 4 labels em mobile
                   }
                 },
                 y: {
-                  grid: {
-                    color: 'rgba(255, 255, 255, 0.1)',
-                    drawBorder: false
-                  },
+                  grid: { color: 'rgba(255, 255, 255, 0.05)' },
                   ticks: {
-                    color: '#ffffff',
-                    callback: function (value) {
-                      return `R$ ${value.toLocaleString('pt-BR')}`;
-                    }
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    callback: (value) => `R$ ${(value / 1000).toFixed(0)}k` // Formata como "R$ 650k"
                   }
                 }
               },
-              interaction: {
-                mode: 'nearest',
-                axis: 'x',
-                intersect: false
-              }
+              interaction: { mode: 'nearest' }
             }
           });
         }
       }
 
+      // Detecta mobile
+      const mobile = window.innerWidth <= 768;
       // 7. CALCULADORA DE RISCO
       function setupRiskCalculator() {
         document.getElementById('coin').addEventListener('change', function () {
