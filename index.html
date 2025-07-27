@@ -7,7 +7,7 @@
   <!-- Open Graph atualizado -->
   <meta property="og:title" content="TrackCripto • Ferramentas Cripto">
   <meta property="og:description"
-    content="Veja sinais de compra ou venda com base no medo e euforia do mercado cripto.">
+    content="Acompanhe os preços, tendências e índices das principais criptomoedas em tempo real. Descubra métricas exclusivas e monitore seu portfólio com facilidade!">
   <meta property="og:image" content="https://trackcripto.netlify.app/assets/shhare-trackcrripto.png">
   <meta property="og:url" content="https://trackcripto.netlify.app">
   <meta property="og:type" content="website">
@@ -46,14 +46,14 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@1.1.0"></script>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HE4QCD8ERG"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HE4QCD8ERG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-HE4QCD8ERG');
-</script>
+    gtag('config', 'G-HE4QCD8ERG');
+  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 
@@ -214,7 +214,6 @@
       padding: 10px 20px;
       border-radius: 8px;
       color: var(--primary);
-      cursor: pointer;
       transition: all 0.3s;
     }
 
@@ -456,15 +455,16 @@
       .market-indices-grid {
         grid-template-columns: 1fr 1fr;
       }
-    body {
-      padding: 10px;
-    }
-    
-table {
-  font-size: 12px;
-  display: block;
-  overflow-x: auto;
-}
+
+      body {
+        padding: 10px;
+      }
+
+      table {
+        font-size: 12px;
+        display: block;
+        overflow-x: auto;
+      }
 
     }
 
@@ -485,7 +485,7 @@ table {
 
     .chart-bar {
       height: 100%;
-      background: linear-gradient(90deg, #f7931a, #ff9900);
+      background: linear-gradient(90deg, #00FF88, #7cf059);
       width: 0;
       transition: width 1s ease;
     }
@@ -792,34 +792,323 @@ table {
       transform: translateY(-5px);
       background: var(--primary-dark);
     }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        margin-top: 30px;
+        border-left: none;
+        border-top: 1px solid #00FF88;
+      }
+    }
+
+    /* Layout responsivo dos controles */
+    .header-tools {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 600px) {
+      .header-tools {
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+      }
+    }
+
+    /* Botão de tema claro/escuro */
+    .theme-btn {
+      background-color: var(--primary);
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .theme-btn i {
+      margin-right: 6px;
+    }
+
+    .theme-btn:hover {
+      background-color: #00cc6d;
+    }
+
+    /* Caixa de modo iniciante/avançado */
+    .mode-box {
+      background-color: var(--primary);
+      color: #000;
+      padding: 10px 15px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+    }
   </style>
 </head>
 
 <button id="backToTop" class="back-to-top" aria-label="Voltar ao topo">
-    <i class="fas fa-arrow-up"></i>
-  </button>
+  <i class="fas fa-arrow-up"></i>
+</button>
 
 <body>
-  <header>
+  <header class="app-header">
     <div class="logo">
       <span class="logo-track">Track</span>
       <span class="logo-crypto">Cripto</span>
-    </div>
-    <button id="themeToggle" class="btn" style="background: var(--card); color: var(--text);">
-      <i class="fas fa-moon"></i> Modo Escuro
+    </div class="header-controls">
+    <button id="themeToggle" class="theme-btn compact">
+      <i class="fas fa-moon"></i>
+      <span id="theme-text">Modo Escuro</span>
     </button>
+
+    <script>
+      // Toggle Tema Claro/Escuro
+      const themeToggle = document.getElementById('themeToggle');
+      const themeText = document.getElementById('theme-text');
+
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        const isDark = document.body.classList.contains('dark-theme');
+        themeText.textContent = isDark ? 'Modo Claro' : 'Modo Escuro';
+        themeToggle.innerHTML = isDark
+          ? '<i class="fas fa-sun"></i> Modo Claro'
+          : '<i class="fas fa-moon"></i> Modo Escuro';
+      });
+
+      // Toggle Modo Iniciante/Avançado
+      const modeToggle = document.getElementById('trader-mode-toggle');
+      const modeText = document.getElementById('mode-text');
+
+      modeToggle.addEventListener('change', () => {
+        const isAdvanced = modeToggle.checked;
+        modeText.textContent = isAdvanced ? 'Avançado' : 'Iniciante';
+        document.body.classList.toggle('trader-mode', isAdvanced);
+      });
+    </script>
+
+    <style>
+      /* Container dos controles - LADO A LADO */
+      .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        /* Espaço entre os elementos */
+      }
+
+      /* Versão compacta dos componentes */
+      .theme-btn.compact {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+
+      .mode-box.compact {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+
+      /* Ajuste fino do switch */
+      .switch {
+        margin: 0 5px;
+        /* Espaço entre o texto e o switch */
+      }
+
+      /* Layout do Header */
+      .app-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background: var(--header-bg);
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary);
+      }
+
+      /* Container dos controles */
+      .header-controls {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      /* Botão de Tema */
+      .theme-btn {
+        background: rgba(0, 255, 136, 0.2);
+        color: var(--text);
+        border: 1px solid var(--primary);
+        padding: 8px 15px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.3s;
+      }
+
+      .theme-btn:hover {
+        background: rgba(0, 255, 136, 0.3);
+      }
+
+      /* Caixa do Modo Iniciante/Avançado */
+      .mode-box {
+        background: rgba(0, 255, 136, 0.2);
+        color: var(--text);
+        border: 1px solid var(--primary);
+        padding: 8px 15px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+      }
+
+      /* Switch Personalizado */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #ccc;
+        transition: .4s;
+        border-radius: 24px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background: white;
+        transition: .4s;
+        border-radius: 50%;
+      }
+
+      input:checked+.slider {
+        background: var(--primary);
+      }
+
+      input:checked+.slider:before {
+        transform: translateX(26px);
+      }
+
+      /* Responsividade */
+      @media (max-width: 600px) {
+        .header-controls {
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 10px;
+        }
+      }
+
+
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 24px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 24px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+      }
+
+      input:checked+.slider {
+        background-color: var(--primary);
+      }
+
+      input:checked+.slider:before {
+        transform: translateX(36px);
+      }
+
+      .trader-mode .advanced-tool {
+        display: block;
+      }
+
+      /* Exemplo: mostra ferramentas avançadas */
+    </style>
+
+
   </header>
 
   <main>
     <!-- Navigation Menu -->
-    <nav>
+    <nav class="categories-grid">
+      <div class="category-row">
       <a href="#crypto-data"><i class="fas fa-coins"></i> Cotações</a>
       <a href="#fear-greed-section"><i class="fas fa-brain"></i> Fear & Greed</a>
       <a href="#educativa"><i class="fas fa-graduation-cap"></i> Educação</a>
       <a href="#risk-calculator"><i class="fas fa-calculator"></i> Calculadora</a>
       <a href="#news"><i class="fas fa-newspaper"></i> Notícias</a>
+      </div>
+
+      <div class="category-row">
       <a href="#portfolio"><i class="fas fa-chart-pie"></i> Portfólio</a>
+      <a href="#liquidations-map"><i class="fas fa-water"></i> Liquidações</a>
+      <a href="#pump-simulator"><i class="fas fa-bolt"></i> Pump/Dump</a>
+      <a href="#alertas-preco"><i class="fas fa-bell"></i> Alertas de Preço</a>
+      <a href="#plataformas"><i class="fas fa-link"></i> Plataformas</a>
+      </div>
     </nav>
+
+    <style>
+      
+    </style>
 
     <!-- Crypto Price Card -->
     <div class="card" id="crypto-data">
@@ -836,6 +1125,11 @@ table {
       </div>
       <div class="price" id="price">R$ --</div>
       <div id="variation">Variação 24h: --</div>
+      <!-- LINK ADICIONADO (estilo discreto) -->
+      <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-muted);">
+        Negocie com taxa 0.1% na <a href="https://www.binance.com/activity/referral-entry/CPA?ref=CPA_0062C7L8QA"
+          target="_blank" style="color: var(--primary); text-decoration: underline;">Binance</a>
+      </p>
     </div>
 
     <!-- Advanced Metrics -->
@@ -950,16 +1244,78 @@ table {
       </div>
       <p id="fear-greed-text">Carregando...</p>
       <small>Atualizado em: <span id="fg-update"></span></small>
+
+      <!-- Texto explicativo original (mantido) -->
       <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-muted);">
         <strong>Como usar:</strong> Quando o mercado está com "Medo Extremo", pode ser uma boa hora para comprar. Quando
         está em "Euforia", pode ser hora de vender.
       </p>
+
+    </div>
+    </div <!-- Mapa de Liquidações -->
+    <div class="card" style="margin-top: 20px;">
+      <h3><i class="fas fa-water"></i> Mapa de Liquidações (24h)</h3>
+      <div id="liquidations-map"
+        style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px;">
+        <p>BTC: <span style="color: #ff4d4d;">$12.5M LONGs</span> liquidados</p>
+        <p>ETH: <span style="color: #00ff88;">$8.2M SHORTs</span> liquidados</p>
+      </div>
+      <small style="color: var(--text-muted);">Dados da Binance Futures</small>
     </div>
 
-    <!-- ============ NOVAS SEÇÕES ADICIONADAS ============ -->
+    <!-- SIMULADOR DE PUMP/DUMP -->
+    <div class="card" id="pump-simulator" style="margin-bottom: 30px;">
+      <h2><i class="fas fa-bolt"></i> Simulador de Pump/Dump</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+        <div>
+          <label>Moeda:</label>
+          <select id="sim-coin" class="form-input">
+            <option value="bitcoin">Bitcoin (BTC)</option>
+            <option value="ethereum">Ethereum (ETH)</option>
+            <option value="dogecoin">Dogecoin (DOGE)</option>
+          </select>
+        </div>
+        <div>
+          <label>Data do Pump:</label>
+          <input type="date" id="sim-date" class="form-input">
+        </div>
+      </div>
+      <button onclick="runPumpSimulation()" class="btn" style="margin-top: 10px;">
+        <i class="fas fa-play"></i> Simular
+      </button>
+      <div id="sim-result" style="margin-top: 15px; display: none;">
+        <h3>Resultado:</h3>
+        <p id="sim-profit"></p>
+        <div id="sim-chart" style="height: 200px;"></div>
+      </div>
+    </div>
+
+    <script>
+      // Função do simulador (coloque no seu JS)
+      function runPumpSimulation() {
+        const coin = document.getElementById('sim-coin').value;
+        const date = document.getElementById('sim-date').value;
+
+        // Exemplo com dados fictícios (substitua pela API CoinGecko)
+        const fakeData = {
+          bitcoin: { date: '2024-01-01', priceBefore: 42000, pricePeak: 52000 },
+          ethereum: { date: '2024-01-01', priceBefore: 2200, pricePeak: 2700 }
+        };
+
+        const profit = ((fakeData[coin].pricePeak - fakeData[coin].priceBefore) / fakeData[coin].priceBefore * 100).toFixed(2);
+
+        document.getElementById('sim-profit').innerHTML =
+          `Se você tivesse comprado ${coin.toUpperCase()} em ${date}, teria lucrado <strong>${profit}%</strong> em 24h!`;
+
+        document.getElementById('sim-result').style.display = 'block';
+
+        // Geração de gráfico simples (use Chart.js no seu projeto)
+        console.log("Gerar gráfico aqui com os dados...");
+      }
+    </script>
 
     <!-- Alertas de Preço -->
-    <div class="card" id="price-alerts">
+    <div class="card" id="alertas-preco">
       <h2><i class="fas fa-bell"></i> Alertas de Preço</h2>
       <div id="alertsContainer">
         <!-- Alertas serão adicionados aqui -->
@@ -1023,6 +1379,11 @@ table {
         <h3>Recomendação:</h3>
         <p id="risk-value"></p>
         <p id="risk-explanation"></p>
+        <!-- LINK ADICIONADO (após resultado) -->
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 10px;">
+          Proteja seus investimentos com stop-loss na <a href="https://www.bybit.com/invite?ref=XQPXAMR" target="_blank"
+            style="color: var(--primary);">Bybit</a>.
+        </p>
       </div>
     </div>
 
@@ -1031,6 +1392,31 @@ table {
       <h2><i class="fas fa-newspaper"></i> Últimas Notícias</h2>
       <div id="news-container">
         <p style="color: var(--text-muted);">Carregando notícias...</p>
+      </div>
+    </div>
+
+    <!-- Plataformas recomendadas -->
+    <div class="card" id="plataformas"
+      style="margin-top: 20px; padding: 15px; border-radius: 8px; background: var(--card-bg);">
+      <h3 font-size: 1rem; margin-bottom: 15px;">
+        <i class="fas fa-exchange-alt"></i> Plataformas recomendadas
+      </h3>
+
+      <!-- Container das plataformas -->
+      <div style="display: flex; gap: 10px;">
+        <!-- Binance -->
+        <a href="https://www.binance.com/activity/referral-entry/CPA?ref=CPA_0062C7L8QA" target="_blank"
+          style="flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; text-align: center; text-decoration: none;">
+          <div style="color: var(--primary); font-weight: bold; margin-bottom: 5px;">Binance</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Taxa 0.1%</div>
+        </a>
+
+        <!-- Bybit -->
+        <a href="https://bybit.com/?ref=XQPXAMR" target="_blank"
+          style="flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; text-align: center; text-decoration: none;">
+          <div style="color: var(--primary); font-weight: bold; margin-bottom: 5px;">Bybit</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Alavancagem 25x</div>
+        </a>
       </div>
     </div>
 
@@ -1125,10 +1511,12 @@ table {
 
   <footer>
     <p>&copy; 2025 TrackCripto. Todos os direitos reservados.</p>
-    <!-- Adicione no footer -->
     <p>
       <a href="#termos" style="color: var(--primary);">Termos de Uso</a> |
-      <a href="#privacidade" style="color: var(--primary);">Política de Privacidade</a>
+      <a href="#privacidade" style="color: var(--primary);">Política de Privacidade</a> |
+      <!-- LINK ADICIONADO (no rodapé) -->
+      <span style="color: var(--text-muted);">Parceiros:</span>
+      <a href="https://www.kucoin.com/?ref=CX8Q433Y" target="_blank" style="color: var(--primary);">KuCoin</a>
     </p>
   </footer>
 
@@ -1474,13 +1862,11 @@ table {
             <div style="margin-bottom:15px">
               <h3>Bitcoin atinge novo recorde histórico</h3>
               <p style="color:#aaa">O BTC superou a marca de R$ 650k nesta semana</p>
-              <a href="#" style="color:#00ff88">Leia mais</a>
-            </div>
+             
             <div style="margin-bottom:15px">
               <h3>Ethereum anuncia atualização da rede</h3>
               <p style="color:#aaa">A atualização deve melhorar as taxas de transação</p>
-              <a href="#" style="color:#00ff88">Leia mais</a>
-            </div>
+              
           `;
         } catch (error) {
           console.error("Erro ao carregar notícias:", error);
@@ -2205,6 +2591,8 @@ table {
     });
 
   </script>
+
+
 
 
 </body>
