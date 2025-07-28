@@ -32,6 +32,7 @@
     content="Veja sinais de compra ou venda com base no medo e euforia do mercado cripto.">
   <meta name="twitter:image" content="https://trackcripto.netlify.app/assets/share-trackcripto.png">
   <meta name="twitter:image:alt" content="TrackCripto - Ferramentas visuais para cripto">
+  <meta http-equiv="Content-Security-Policy" content="frame-src https://www.binance.com">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -870,6 +871,78 @@
       gap: 10px;
       font-weight: 600;
     }
+
+    .platforms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.platform-card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 15px;
+  text-decoration: none;
+  transition: all 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.platform-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Cores específicas por plataforma */
+.platform-card.binance {
+  border-top: 3px solid #f0b90b;
+}
+
+.platform-card.bybit {
+  border-top: 3px solid #2b71ff;
+}
+
+.platform-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.platform-name {
+  font-weight: bold;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.platform-badge {
+  background: var(--primary);
+  color: #000;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-left: auto;
+}
+
+.platform-detail {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.platform-cta {
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
   </style>
 </head>
 
@@ -1101,7 +1174,54 @@
       }
 
       /* Exemplo: mostra ferramentas avançadas */
-    </style>
+.exchange-widget {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 10px;
+  border: 1px solid rgba(0, 255, 136, 0.1);
+}
+
+/* Adicione ao seu arquivo CSS */
+.binance-redirect {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.binance-btn {
+  display: inline-block;
+  background: linear-gradient(90deg, #f0b90b, #fcd535);
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 12px 25px;
+  border-radius: 8px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(240, 185, 11, 0.3);
+}
+
+.binance-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(240, 185, 11, 0.4);
+}
+
+.binance-btn-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.binance-btn img {
+  border-radius: 50%;
+}
+
+.binance-stats {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+</style>
 
 
   </header>
@@ -1208,6 +1328,78 @@
         background: rgba(0, 255, 136, 0.2);
         border: 1px solid var(--primary);
       }
+
+      /* ESTILO DO CARD */
+.binance-cta {
+  text-align: center;
+  padding: 10px;
+}
+
+/* BOTÃO PRINCIPAL */
+.binance-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(90deg, #f0b90b, #f8d33a);
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 10px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(240, 185, 11, 0.3);
+  border: none;
+  cursor: pointer;
+}
+
+.binance-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(240, 185, 11, 0.4);
+}
+
+/* TEXTO DO BOTÃO */
+.btn-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  flex-grow: 1;
+}
+
+.btn-title {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.btn-subtitle {
+  font-size: 0.75rem;
+  font-weight: normal;
+  opacity: 0.9;
+}
+
+/* CONTADOR DE USUÁRIOS */
+.user-count {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.7);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.user-count i {
+  color: var(--primary);
+}
+
+@media (max-width: 600px) {
+  .platforms-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .platform-card {
+    padding: 12px;
+  }
+}
     </style>
 
     <!-- Crypto Price Card -->
@@ -1305,6 +1497,22 @@
         </button>
       </div>
     </div>
+
+    <div class="card" style="margin-top: 20px; border: 1px solid rgba(240, 185, 11, 0.3);">
+  <h2 style="margin-bottom: 15px;"><i class="fas fa-exchange-alt"></i> Comprar/Vender na Binance</h2>
+  
+  <div class="binance-cta">
+    <a href="https://www.binance.com/en/trade/BTC_USDT?affiliateKey=CPA_0062C7L8QA" target="_blank" class="binance-btn">
+      <img src="assets/logo-binance.png" alt="Binance" width="30" loading="lazy">
+      <div class="btn-text">
+        <span class="btn-title">Negociar na Binance</span>
+        <span class="btn-subtitle">Taxas reduzidas para usuários TrackCripto</span>
+      </div>
+      <i class="fas fa-arrow-right"></i>
+    </a>
+    <p class="user-count"><i class="fas fa-users"></i> 120+ usuários ativos hoje</p>
+  </div>
+</div>
 
     <!-- Portfólio Simulador -->
     <div class="card" id="portfolio">
@@ -1495,30 +1703,42 @@
       </div>
     </div>
 
-    <!-- Plataformas recomendadas -->
-    <div class="card" id="plataformas"
-      style="margin-top: 20px; padding: 15px; border-radius: 8px; background: var(--card-bg);">
-      <h3 font-size: 1rem; margin-bottom: 15px;">
-        <i class="fas fa-exchange-alt"></i> Plataformas recomendadas
-      </h3>
+    <div class="card" id="plataformas" style="margin-top: 20px; background: rgba(0, 255, 136, 0.03); border: 1px solid rgba(0, 255, 136, 0.1);">
+  <h3 style="font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+    <i class="fas fa-medal" style="color: var(--primary);"></i> Melhores Plataformas
+  </h3>
 
-      <!-- Container das plataformas -->
-      <div style="display: flex; gap: 10px;">
-        <!-- Binance -->
-        <a href="https://www.binance.com/activity/referral-entry/CPA?ref=CPA_0062C7L8QA" target="_blank"
-          style="flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; text-align: center; text-decoration: none;">
-          <div style="color: var(--primary); font-weight: bold; margin-bottom: 5px;">Binance</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted);">Taxa 0.1%</div>
-        </a>
-
-        <!-- Bybit -->
-        <a href="https://bybit.com/?ref=XQPXAMR" target="_blank"
-          style="flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; text-align: center; text-decoration: none;">
-          <div style="color: var(--primary); font-weight: bold; margin-bottom: 5px;">Bybit</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted);">Alavancagem 25x</div>
-        </a>
+  <div class="platforms-grid">
+    <!-- Binance -->
+    <a href="https://www.binance.com/activity/referral-entry/CPA?ref=CPA_0062C7L8QA" target="_blank" class="platform-card binance">
+      <div class="platform-header">
+        <img src="assets/logo-binance.png" alt="Binance" width="30" loading="lazy">
+        <div class="platform-name">Binance</div>
+        <div class="platform-badge">RECOMENDADO</div>
       </div>
-    </div>
+      <div class="platform-detail">
+        <i class="fas fa-percentage"></i> Taxa 0.1%
+      </div>
+      <div class="platform-cta">
+        ABRIR CONTA <i class="fas fa-arrow-right"></i>
+      </div>
+    </a>
+
+    <!-- Bybit -->
+    <a href="https://bybit.com/?ref=XQPXAMR" target="_blank" class="platform-card bybit">
+      <div class="platform-header">
+        <img src="assets/logo-bybit.png" alt="Bybit" width="30" loading="lazy">
+        <div class="platform-name">Bybit</div>
+      </div>
+      <div class="platform-detail">
+        <i class="fas fa-arrow-trend-up"></i> Alavancagem 25x
+      </div>
+      <div class="platform-cta">
+        COMEÇAR <i class="fas fa-arrow-right"></i>
+      </div>
+    </a>
+  </div>
+</div>
 
     <!-- Seção Educativa -->
     <div class="card" id="educativa">
@@ -1545,29 +1765,24 @@
       </div>
     </div>
 
-    <!-- Contact Form -->
-    <div class="card" id="contato">
-      <h2><i class="fas fa-envelope"></i> Fale Conosco</h2>
+    <!-- Feedback -->
+    <div class="card" id="feedback">
+      <h2><i class="fas fa-comment-dots"></i> Deixe seu Feedback</h2>
       <form action="https://formsubmit.co/trackcripto@gmail.com" method="POST">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_next" value="https://seusite.com/obrigado.html">
+
         <div style="margin-bottom: 15px;">
-          <label>Seu Nome:</label>
-          <input type="text" name="name" class="form-input" required>
+          <label>O que você achou do site?</label>
+          <textarea name="feedback" class="form-input" rows="4" placeholder="Sua opinião aqui..." required></textarea>
         </div>
-        <div style="margin-bottom: 15px;">
-          <label>Seu Email:</label>
-          <input type="email" name="email" class="form-input" required>
-        </div>
-        <div style="margin-bottom: 15px;">
-          <label>Mensagem:</label>
-          <textarea name="message" class="form-input" rows="4" required></textarea>
-        </div>
+
         <button type="submit" class="btn">
-          <i class="fas fa-paper-plane"></i> Enviar Mensagem
+          <i class="fas fa-paper-plane"></i> Enviar Feedback
         </button>
       </form>
     </div>
+
 
     <!-- Support Section -->
     <div class="card" id="monetizacao" style="margin-top: 30px;">
@@ -1646,6 +1861,8 @@
   <button id="chatToggle">
     <i class="fas fa-robot" style="font-size: 28px; color: #1a1a2e;"></i>
   </button>
+
+
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
@@ -2650,7 +2867,12 @@
     const backToTopBtn = document.getElementById('backToTop');
 
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      // Mostra o botão apenas se o usuário estiver a 200px do fim da página
+      if (scrollTop + windowHeight >= documentHeight - 200) {
         backToTopBtn.classList.add('visible');
       } else {
         backToTopBtn.classList.remove('visible');
@@ -2663,9 +2885,86 @@
         behavior: 'smooth'
       });
     });
+  </script>
+
 
   </script>
 
+  <!-- Notificações Falsas -->
+  <div id="fake-notifications" class="notification-container"></div>
+
+  <style>
+    .notification-container {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .notification {
+      background: rgba(0, 0, 0, 0.85);
+      color: #00ffae;
+      border: 1px solid #00ffae;
+      border-left: 5px solid #00ffae;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Segoe UI', sans-serif;
+      box-shadow: 0 0 10px #00ffae88;
+      animation: slideIn 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
+
+  <script>
+    const messages = [
+      "💬 Usuário de SP acabou de usar a Calculadora de Risco.",
+      "📈 Nova consulta feita no Índice Fear & Greed.",
+      "🧠 Alguém acabou de acessar Educação Cripto.",
+      "⚡ +120 usuários já estão usando!",
+      "📊 Nova análise feita no comparador de Criptos.",
+      "👨‍💻 Usuário do RJ entrou no Portfólio."
+    ];
+
+    function showNotification(msg) {
+      const container = document.getElementById("fake-notifications");
+      const div = document.createElement("div");
+      div.className = "notification";
+      div.innerText = msg;
+
+      container.appendChild(div);
+
+      setTimeout(() => {
+        div.style.opacity = "0";
+        div.style.transition = "opacity 0.5s ease";
+        setTimeout(() => container.removeChild(div), 500);
+      }, 5000); // dura 5s
+    }
+
+    function loopNotifications() {
+      setInterval(() => {
+        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+        showNotification(randomMsg);
+      }, 8000); // a cada 8s
+    }
+
+    document.addEventListener("DOMContentLoaded", loopNotifications);
+  </script>
 
 
 
