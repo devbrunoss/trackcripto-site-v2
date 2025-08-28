@@ -6,25 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO Básico -->
-  <title>TrackCripto - Dashboard Profissional para Criptomoedas</title>
+  <title>TrackCripto - Aprenda Criptomoedas sem Complicação</title>
   <meta name="description"
-    content="TrackCripto oferece dados em tempo real e ferramentas profissionais para análise do mercado de criptomoedas. Simples, rápido e acessível para todos os investidores.">
+    content="TrackCripto oferece educação simplificada e ferramentas acessíveis para iniciantes no mercado de criptomoedas. Dashboard intuitivo e conteúdo didático.">
   <meta name="keywords"
-    content="criptomoedas, bitcoin, ethereum, altcoins, dashboard cripto, análise cripto, preços em tempo real, trackcripto">
+    content="criptomoedas, bitcoin, ethereum, aprender cripto, iniciantes cripto, dashboard cripto, educação financeira">
   <meta name="author" content="TrackCripto">
 
   <!-- Open Graph (Compartilhamento em redes sociais) -->
-  <meta property="og:title" content="TrackCripto - Dashboard Profissional para Criptomoedas">
+  <meta property="og:title" content="TrackCripto - Aprenda Criptomoedas sem Complicação">
   <meta property="og:description"
-    content="Acompanhe criptomoedas em tempo real com ferramentas inteligentes e acessíveis.">
+    content="Educação fácil, ferramentas úteis e cotações em tempo real para iniciantes em criptomoedas.">
   <meta property="og:image" content="img/foto1.png">
   <meta property="og:url" content="https://trackcripto.netlify.app">
   <meta property="og:type" content="website">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="TrackCripto - Dashboard Profissional para Criptomoedas">
-  <meta name="twitter:description" content="Dados cripto em tempo real, ferramentas para traders e iniciantes.">
+  <meta name="twitter:title" content="TrackCripto - Aprenda Criptomoedas sem Complicação">
+  <meta name="twitter:description" content="Dashboard intuitivo e conteúdo didático para iniciantes em criptomoedas.">
   <meta name="twitter:image" content="img/foto1.png">
 
   <!-- Google tag (gtag.js) -->
@@ -52,12 +52,12 @@
   :root {
     --primary: #39ff14;
     --primary-dark: #2bd312;
-    --dark: #111111;
-    --gray-light: #f9f9f9;
-    --gray-medium: #efefef;
+    --dark: #000000;
+    --gray-light: #1a1a1a;
+    --gray-medium: #2a2a2a;
     --light: #ffffff;
-    --text: #333333;
-    --text-light: #666666;
+    --text: #f5f5f5;
+    --text-light: #cccccc;
   }
 
   * {
@@ -68,7 +68,7 @@
 
   body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--light);
+    background-color: var(--dark);
     color: var(--text);
     line-height: 1.6;
     overflow-x: hidden;
@@ -81,50 +81,31 @@
     left: 0;
     width: 100%;
     padding: 25px 5%;
-    background-color: var(--light);
+    background-color: rgba(0, 0, 0, 0.8);
     z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    backdrop-filter: blur(10px);
   }
 
   header.scrolled {
     padding: 15px 5%;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 5px 30px rgba(57, 255, 20, 0.1);
+    background-color: rgba(0, 0, 0, 0.95);
   }
 
   .logo {
     font-size: 28px;
     font-weight: 800;
-    color: var(--dark);
+    color: var(--light);
     text-decoration: none;
     transition: all 0.3s ease;
   }
 
   .logo span {
     color: var(--primary);
-    position: relative;
-  }
-
-  .logo span::after {
-    content: '';
-    position: absolute;
-    bottom: 2px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--primary);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
-  }
-
-  .logo:hover span::after {
-    transform: scaleX(1);
-    transform-origin: left;
   }
 
   nav ul {
@@ -169,7 +150,7 @@
     background: none;
     border: none;
     font-size: 24px;
-    color: var(--dark);
+    color: var(--light);
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -185,12 +166,41 @@
     align-items: center;
     justify-content: space-between;
     min-height: 100vh;
-    background: linear-gradient(135deg, #ffffff 0%, #e6ffe6 100%);
+    background: #000000;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      linear-gradient(rgba(57, 255, 20, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(57, 255, 20, 0.08) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    animation: gridMove 20s linear infinite;
+  }
+
+  @keyframes gridMove {
+    from {
+      background-position: 0 0, 0 0;
+    }
+
+    to {
+      background-position: 60px 60px, 60px 60px;
+    }
   }
 
   .hero-content {
     flex: 1;
     max-width: 600px;
+    position: relative;
+    z-index: 2;
   }
 
   .hero-content h1 {
@@ -198,47 +208,10 @@
     font-weight: 800;
     margin-bottom: 20px;
     line-height: 1.2;
-    position: relative;
-    overflow: hidden;
-    white-space: normal;
-    animation: none;
-  }
-
-  @keyframes typing {
-    from {
-      width: 0
-    }
-
-    to {
-      width: 100%
-    }
   }
 
   .hero-content h1 span {
     color: var(--primary);
-    /* verde fixo */
-    font-weight: 800;
-    /* mantém destaque */
-  }
-
-  /* remove o underline animado */
-  .hero-content h1 span::after {
-    content: none;
-  }
-
-
-  @keyframes neonUnderline {
-    0% {
-      opacity: 0.3;
-    }
-
-    50% {
-      opacity: 0.8;
-    }
-
-    100% {
-      opacity: 0.3;
-    }
   }
 
   .hero-content p {
@@ -295,13 +268,14 @@
     justify-content: center;
     position: relative;
     padding-left: 50px;
+    z-index: 2;
   }
 
   .hero-image img {
     max-width: 100%;
     height: auto;
     animation: float 6s ease-in-out infinite;
-    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
   }
 
   @keyframes float {
@@ -320,7 +294,7 @@
 
   /* Sections */
   section {
-    padding: 120px 5%;
+    padding: 100px 5%;
     scroll-margin-top: 80px;
   }
 
@@ -334,7 +308,7 @@
 
   .section-title {
     text-align: center;
-    margin-bottom: 80px;
+    margin-bottom: 60px;
   }
 
   .section-title h2 {
@@ -366,27 +340,34 @@
     font-size: 18px;
   }
 
-  /* About Section */
-  .about-content {
+  /* Sobre o Projeto Section */
+  .about-project {
     display: flex;
     align-items: center;
-    gap: 50px;
+    justify-content: space-between;
+    gap: 40px;
   }
 
-  .about-text {
+  .about-content {
     flex: 1;
   }
 
-  .about-text h3 {
-    font-size: 32px;
-    margin-bottom: 25px;
-    font-weight: 700;
+  .about-content h2 {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
   }
 
-  .about-text p {
-    margin-bottom: 20px;
+  .about-content h2 span {
+    color: var(--primary);
+  }
+
+  .about-content p {
+    font-size: 18px;
     color: var(--text-light);
-    font-size: 17px;
+    margin-bottom: 25px;
+    line-height: 1.6;
   }
 
   .about-image {
@@ -398,35 +379,16 @@
   .about-image img {
     max-width: 100%;
     border-radius: 15px;
-    box-shadow: 0 0 25px rgba(57, 255, 20, 0.3);
+    box-shadow: 0 20px 40px rgba(57, 255, 20, 0.2);
+    transition: all 0.4s ease;
   }
 
-  .creator-card {
-    position: absolute;
-    bottom: -30px;
-    left: -30px;
-    background: var(--light);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 250px;
-    text-align: left;
-    border: 2px solid var(--primary);
-    transform: rotate(-5deg);
+  .about-image img:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(57, 255, 20, 0.3);
   }
 
-  .creator-card h4 {
-    font-size: 18px;
-    margin-bottom: 5px;
-    color: var(--primary);
-  }
-
-  .creator-card p {
-    font-size: 14px;
-    color: var(--text-light);
-  }
-
-  /* Features Section */
+  /* Recursos Dashboard Section */
   .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -435,14 +397,15 @@
   }
 
   .feature-card {
-    background-color: var(--light);
+    background-color: var(--gray-medium);
     border-radius: 15px;
     padding: 40px 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(57, 255, 20, 0.1);
     position: relative;
     overflow: hidden;
+    text-align: center;
   }
 
   .feature-card:hover {
@@ -456,14 +419,16 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 3px;
-    height: 0;
+    width: 100%;
+    height: 5px;
     background: var(--primary);
+    transform: scaleX(0);
+    transform-origin: left;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
 
   .feature-card:hover::before {
-    height: 100%;
+    transform: scaleX(1);
   }
 
   .feature-icon {
@@ -488,301 +453,324 @@
     font-size: 15px;
   }
 
-  /* Advantages Section */
-  .advantages-list {
+  /* Educação Cripto Section */
+  .education-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+  }
+
+  .education-card {
+    background-color: var(--gray-medium);
+    border-radius: 15px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(57, 255, 20, 0.1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .education-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(57, 255, 20, 0.15);
+    border-color: var(--primary);
+  }
+
+  .education-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .education-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .education-icon {
+    font-size: 40px;
+    color: var(--primary);
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+  }
+
+  .education-card:hover .education-icon {
+    transform: scale(1.1);
+  }
+
+  .education-card h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+
+  .education-card p {
+    color: var(--text-light);
+    font-size: 15px;
+  }
+
+  /* Benefícios Section */
+  .benefits-list {
     max-width: 800px;
     margin: 0 auto;
   }
 
-  .advantage-item {
+  .benefit-item {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 40px;
     padding: 25px;
     border-radius: 15px;
     transition: all 0.3s ease;
-    background-color: var(--light);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+    background-color: var(--gray-medium);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   }
 
-  .advantage-item:hover {
+  .benefit-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(57, 255, 20, 0.1);
   }
 
-  .advantage-icon {
+  .benefit-icon {
     font-size: 28px;
     color: var(--primary);
     margin-right: 25px;
-    margin-top: 5px;
-    min-width: 40px;
-    text-align: center;
+    min-width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(57, 255, 20, 0.1);
+    border-radius: 50%;
   }
 
-  .advantage-content h3 {
+  .benefit-content h3 {
     font-size: 22px;
     margin-bottom: 12px;
     font-weight: 700;
   }
 
-  .advantage-content p {
+  .benefit-content p {
     color: var(--text-light);
     font-size: 16px;
   }
 
-  /* Creator Section */
-  .creator-section {
+  /* Como Funciona Section */
+  .how-works {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    max-width: 900px;
-    margin: 0 auto;
-    gap: 20px;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 50px;
   }
 
-  .creator-content {
-    display: flex;
-    align-items: center;
-    gap: 60px;
-  }
-
-  .creator-image {
+  .step {
     flex: 1;
     text-align: center;
-    position: relative;
-  }
-
-  .creator-image img {
-    max-width: 100%;
-    border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-  }
-
-  .creator-text {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .creator-text h3 {
-    font-size: 32px;
-    margin-bottom: 25px;
-    font-weight: 800;
-  }
-
-  .creator-text h3 span {
-    color: var(--primary);
-    position: relative;
-  }
-
-  .creator-text h3 span::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 3px;
-    bottom: 0;
-    left: 0;
-    background: var(--primary);
-  }
-
-  .creator-text p {
-    margin-bottom: 20px;
-    color: var(--text-light);
-    font-size: 17px;
-  }
-
-  /* Roadmap Section */
-  .roadmap-container {
-    width: 100%;
-    overflow-x: auto;
-    padding: 30px 0;
-    position: relative;
-  }
-
-  .roadmap-track {
-    display: flex;
-    width: max-content;
-    gap: 30px;
-    padding: 0 50px;
-  }
-
-  .roadmap-item {
-    min-width: 300px;
-    position: relative;
-  }
-
-  .roadmap-item::before {
-    content: '';
-    position: absolute;
-    top: 40px;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary), var(--gray-medium));
-    z-index: 1;
-  }
-
-  .roadmap-item:last-child::before {
-    display: none;
-  }
-
-  .roadmap-content {
     padding: 30px;
-    background-color: var(--light);
+    background: var(--gray-medium);
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     position: relative;
-    z-index: 2;
-    border-top: 4px solid var(--primary);
     transition: all 0.3s ease;
   }
 
-  .roadmap-content:hover {
+  .step:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(57, 255, 20, 0.1);
+    box-shadow: 0 15px 30px rgba(57, 255, 20, 0.1);
   }
 
-  .roadmap-marker {
-    position: absolute;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 20px;
-    background-color: var(--primary);
+  .step-number {
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    color: var(--dark);
     border-radius: 50%;
-    border: 4px solid var(--light);
-    z-index: 3;
-  }
-
-  .roadmap-content h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: var(--primary);
-    font-weight: 700;
-  }
-
-  .roadmap-content p {
-    color: var(--text-light);
-    font-size: 15px;
-  }
-
-  /* Contact Section */
-  .contact-container {
-    display: flex;
-    gap: 60px;
-  }
-
-  .contact-info {
-    flex: 1;
-  }
-
-  .contact-info h3 {
-    font-size: 28px;
-    margin-bottom: 25px;
-    font-weight: 700;
-  }
-
-  .contact-info p {
-    color: var(--text-light);
-    margin-bottom: 30px;
-    font-size: 17px;
-  }
-
-  .social-links {
-    display: flex;
-    gap: 15px;
-  }
-
-  .social-links a {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
-    background-color: var(--gray-light);
-    color: var(--text);
-    border-radius: 50%;
-    transition: all 0.3s ease;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 auto 20px;
+  }
+
+  .step h3 {
     font-size: 20px;
+    margin-bottom: 15px;
+    color: var(--primary);
   }
 
-  .social-links a:hover {
-    background-color: var(--primary);
-    color: var(--dark);
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+  .step p {
+    color: var(--text-light);
+    font-size: 16px;
   }
 
-  .contact-form {
-    flex: 1;
+  /* Depoimentos Section */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
   }
 
-  .form-group {
-    margin-bottom: 25px;
-  }
-
-  .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    padding: 15px 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-family: 'Poppins', sans-serif;
+  .testimonial-card {
+    background-color: var(--gray-medium);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    background-color: var(--gray-light);
+    position: relative;
   }
 
-  .form-group input:focus,
-  .form-group textarea:focus {
-    border-color: var(--primary);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(57, 255, 20, 0.1);
-    background-color: var(--light);
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(57, 255, 20, 0.1);
   }
 
-  .form-group textarea {
-    min-height: 150px;
-    resize: vertical;
+  .testimonial-card::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 60px;
+    color: var(--primary);
+    opacity: 0.2;
+    font-family: Arial;
   }
 
-  .submit-btn {
+  .testimonial-text {
+    margin-bottom: 20px;
+    font-style: italic;
+    color: var(--text-light);
+  }
+
+  .testimonial-author {
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  /* FAQ Section */
+  .faq-container {
+    max-width: 800px;
+    margin: 50px auto 0;
+  }
+
+  .faq-item {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--gray-medium);
+  }
+
+  .faq-question {
+    padding: 20px;
+    background: var(--gray-medium);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .faq-question:hover {
+    background: rgba(57, 255, 20, 0.1);
+  }
+
+  .faq-question i {
+    transition: all 0.3s ease;
+  }
+
+  .faq-answer {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    color: var(--text-light);
+  }
+
+  .faq-item.active .faq-question {
+    background: rgba(57, 255, 20, 0.1);
+  }
+
+  .faq-item.active .faq-question i {
+    transform: rotate(180deg);
+  }
+
+  .faq-item.active .faq-answer {
+    padding: 20px;
+    max-height: 300px;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(135deg, #000000 0%, #0a1f0a 100%);
+    border-radius: 20px;
+    padding: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 80px;
     position: relative;
     overflow: hidden;
   }
 
-  .submit-btn::after {
+  .cta-section::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(to bottom right,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.8) 50%,
-        rgba(255, 255, 255, 0) 100%);
-    transform: rotate(30deg);
-    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(circle at 90% 50%, rgba(57, 255, 20, 0.1) 0%, transparent 50%);
+    z-index: 0;
   }
 
-  .submit-btn:hover::after {
-    left: 100%;
+  .cta-content {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta-content h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  .cta-content h2 span {
+    color: var(--primary);
+  }
+
+  .cta-image {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   }
 
   /* Footer */
   footer {
-    background-color: var(--dark);
+    background-color: var(--gray-light);
     color: var(--light);
     padding: 80px 5% 40px;
+    margin-top: 100px;
   }
 
   .footer-content {
@@ -812,6 +800,12 @@
     color: #aaa;
     margin-bottom: 25px;
     font-size: 15px;
+  }
+
+  .footer-disclaimer {
+    color: #777;
+    font-size: 12px;
+    margin-top: 20px;
   }
 
   .footer-links {
@@ -856,7 +850,7 @@
   /* Responsive Styles */
   @media (max-width: 1200px) {
     .hero {
-      background: var(--light);
+      background: linear-gradient(135deg, #000000 0%, #0a1f0a 100%);
     }
 
     .hero-image {
@@ -880,25 +874,19 @@
 
     .hero-content h1 {
       font-size: 42px;
-      white-space: normal;
-      animation: none;
     }
 
-    .about-content,
-    .creator-content {
+    .about-project {
       flex-direction: column;
-      gap: 40px;
     }
 
-    .creator-card {
-      left: 50%;
-      transform: translateX(-50%) rotate(-5deg);
-      bottom: -50px;
-    }
-
-    .contact-container {
+    .how-works {
       flex-direction: column;
-      gap: 40px;
+    }
+
+    .cta-section {
+      flex-direction: column;
+      text-align: center;
     }
   }
 
@@ -913,13 +901,14 @@
       left: -100%;
       width: 90%;
       height: calc(100vh - 80px);
-      background-color: var(--light);
+      background-color: var(--gray-light);
       flex-direction: column;
       align-items: center;
       justify-content: center;
       transition: all 0.5s ease;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       border-radius: 0 0 20px 20px;
+      z-index: 1000;
     }
 
     nav.active {
@@ -952,16 +941,8 @@
       font-size: 36px;
     }
 
-    .creator-section {
-      padding: 50px 30px;
-    }
-
-    .roadmap-track {
-      padding: 0 30px;
-    }
-
-    .roadmap-item {
-      min-width: 280px;
+    .cta-section {
+      padding: 40px 30px;
     }
   }
 
@@ -987,16 +968,13 @@
       font-size: 28px;
     }
 
-    .feature-card {
+    .education-card,
+    .testimonial-card {
       padding: 30px 20px;
     }
 
-    .creator-section {
-      padding: 40px 20px;
-    }
-
-    .roadmap-item {
-      min-width: 250px;
+    .cta-section {
+      padding: 30px 20px;
     }
 
     .footer-content {
@@ -1045,90 +1023,342 @@
     }
   }
 
-  /* Ajustes para tablets e celulares */
-  @media (max-width: 1024px) {
-    .hero {
-      flex-direction: column;
-      text-align: center;
+  /* Quem Somos Section */
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+  }
+
+  .about-card {
+    background-color: var(--gray-medium);
+    border-radius: 15px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(57, 255, 20, 0.1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .about-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(57, 255, 20, 0.15);
+    border-color: var(--primary);
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .about-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .about-icon {
+    font-size: 40px;
+    color: var(--primary);
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+  }
+
+  .about-card:hover .about-icon {
+    transform: scale(1.1);
+  }
+
+  .about-card h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+
+  .about-card p {
+    color: var(--text-light);
+    font-size: 15px;
+  }
+
+  /* Depoimentos com Avatar */
+  .testimonial-with-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .testimonial-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    overflow: hidden;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .testimonial-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .testimonial-name {
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 15px;
+  }
+
+  .testimonial-role {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-top: 5px;
+  }
+
+  /* Blog Section */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+  }
+
+  .blog-card {
+    background-color: var(--gray-medium);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(57, 255, 20, 0.1);
+  }
+
+  .blog-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(57, 255, 20, 0.15);
+    border-color: var(--primary);
+  }
+
+  .blog-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .blog-content {
+    padding: 25px;
+  }
+
+  .blog-card h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+
+  .blog-card p {
+    color: var(--text-light);
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  .blog-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .blog-link:hover {
+    color: var(--primary-dark);
+    padding-left: 5px;
+  }
+
+  .blog-link i {
+    margin-left: 8px;
+    font-size: 14px;
+  }
+
+  /* Novos estilos para as seções adicionais */
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 50px;
+  }
+
+  .resource-card {
+    background-color: var(--gray-medium);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(57, 255, 20, 0.1);
+  }
+
+  .resource-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 25px rgba(57, 255, 20, 0.1);
+  }
+
+  .resource-icon {
+    font-size: 32px;
+    color: var(--primary);
+    margin-bottom: 15px;
+  }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background: var(--gray-medium);
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .comparison-table th {
+    background-color: rgba(57, 255, 20, 0.1);
+    font-weight: 600;
+  }
+
+  .comparison-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .check-icon {
+    color: var(--primary);
+    font-weight: bold;
+  }
+
+  .x-icon {
+    color: #ff4d4d;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+  }
+
+  .pricing-card {
+    background-color: var(--gray-medium);
+    border-radius: 15px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(57, 255, 20, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pricing-card.featured {
+    border-color: var(--primary);
+    transform: scale(1.05);
+    box-shadow: 0 15px 35px rgba(57, 255, 20, 0.15);
+    z-index: 2;
+  }
+
+  .pricing-card.featured::before {
+    content: 'POPULAR';
+    position: absolute;
+    top: 15px;
+    right: -30px;
+    background: var(--primary);
+    color: var(--dark);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 30px;
+    transform: rotate(45deg);
+  }
+
+  .pricing-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: var(--primary);
+  }
+
+  .price {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: var(--light);
+  }
+
+  .price span {
+    font-size: 16px;
+    color: var(--text-light);
+    font-weight: 400;
+  }
+
+  .pricing-features {
+    list-style: none;
+    margin-bottom: 30px;
+  }
+
+  .pricing-features li {
+    padding: 10px 0;
+    color: var(--text-light);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .pricing-features li:last-child {
+    border-bottom: none;
+  }
+
+  .pricing-card .btn {
+    width: 100%;
+  }
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  padding-left: 50px;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  animation: float 6s ease-in-out infinite;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
+}
+
+@keyframes float {
+    0% {
+      transform: translateY(0px);
     }
 
-    .hero-content {
-      max-width: 100%;
+    50% {
+      transform: translateY(-20px);
     }
 
-    .hero-image {
-      margin-top: 20px;
+    100% {
+      transform: translateY(0px);
     }
   }
 
-  @media (max-width: 768px) {
-
-    /* Texto menor no hero */
-    .hero-content h1 {
-      font-size: 1.8rem;
-      line-height: 1.3;
-    }
-
-    .hero-content p {
-      font-size: 1rem;
-    }
-
-    /* Seção Sobre o Projeto */
-    .about {
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .about-content {
-      max-width: 100%;
-      margin-bottom: 20px;
-    }
-
-    .about-image img {
-      width: 100%;
-      height: auto;
-    }
-
-    /* Roadmap */
-    .roadmap-track {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .roadmap-item {
-      width: 100%;
-      text-align: center;
-    }
-
-    /* Criador */
-    .creator-section {
-      padding: 20px;
-    }
-
-    /* Footer redes sociais */
-    .footer-social {
-      flex-direction: column;
-      gap: 10px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .hero-content h1 {
-      font-size: 1.5rem;
-    }
-
-    .hero-content p {
-      font-size: 0.9rem;
-    }
-
-    .btn-primary,
-    .btn-secondary {
-      width: 100%;
-      padding: 12px;
-    }
-  }
+  
 </style>
-</head>
 
 <body>
   <!-- Header -->
@@ -1136,13 +1366,14 @@
     <a href="#" class="logo">Track<span>Cripto</span></a>
     <nav id="nav">
       <ul>
-        <li><a href="#home">Início</a></li>
-        <li><a href="#about">Sobre</a></li>
+        <li><a href="#hero">Início</a></li>
+        <li><a href="#about-project">Sobre</a></li>
         <li><a href="#features">Recursos</a></li>
-        <li><a href="#advantages">Vantagens</a></li>
-        <li><a href="#creator">Criador</a></li>
-        <li><a href="#roadmap">Roadmap</a></li>
-        <li><a href="#contact">Contato</a></li>
+        <li><a href="#benefits">Vantagens</a></li>
+        <li><a href="#education">Educação</a></li>
+        <li><a href="#how-works">Como Funciona</a></li>
+        <li><a href="#testimonials">Depoimentos</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
     </nav>
     <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -1151,313 +1382,364 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="hero" id="home">
-    <div class="hero-content hidden delay-1">
+  <section class="hero" id="hero">
+    <div class="hero-content hidden">
       <h1>Domine o mercado de <span>criptomoedas</span> com dados em tempo real</h1>
       <p>TrackCripto oferece a análise mais precisa do mercado cripto, com ferramentas profissionais acessíveis para
         investidores de todos os níveis.</p>
-      <a href="https://trackcriptodb.netlify.app/" class="btn">Acessar Dashboard <i class="fas fa-arrow-right"></i></a>
+      <a href="#cta" class="btn">Começar Agora</a>
     </div>
-    <div class="hero-image hidden delay-2">
-      <img src="img/foto1.png" alt="Dashboard TrackCripto com gráficos de criptomoedas">
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section class="about section-bg" id="about">
-    <div class="section-title hidden">
-      <h2>Sobre o <span>Projeto</span></h2>
-      <p>Uma solução inovadora criada para democratizar o acesso ao mercado cripto</p>
-    </div>
-    <div class="about-content">
-      <div class="about-text hidden delay-1">
-        <h3>Mais que um dashboard, uma revolução no acompanhamento cripto</h3>
-        <p>A TrackCripto surgiu da necessidade de simplificar a análise do volátil mercado de criptomoedas, tornando
-          dados complexos acessíveis e acionáveis.</p>
-        <p>Desenvolvida com tecnologia de ponta, nossa plataforma agrega informações de múltiplas exchanges e fontes de
-          dados, proporcionando uma visão unificada e em tempo real do ecossistema cripto.</p>
-        <p>Nosso diferencial está na combinação de profundidade técnica com uma interface intuitiva, projetada tanto
-          para traders experientes quanto para quem está dando os primeiros passos nesse mercado.</p>
-      </div>
-      <div class="about-image hidden delay-2">
-        <img src="img/foto2.png" alt="Sobre o projeto TrackCripto">
-
-      </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="features" id="features">
-    <div class="section-title hidden">
-      <h2>Recursos do <span>Dashboard</span></h2>
-      <p>Tudo que você precisa para tomar decisões de investimento informadas</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card hidden delay-1">
-        <div class="feature-icon">
-          <i class="fas fa-coins"></i>
-        </div>
-        <h3>Cotações em Tempo Real</h3>
-        <p>Preços atualizados a cada segundo das principais criptomoedas e tokens do mercado.</p>
-      </div>
-      <div class="feature-card hidden delay-2">
-        <div class="feature-icon">
-          <i class="fas fa-chart-line"></i>
-        </div>
-        <h3>Gráficos Interativos</h3>
-        <p>Análise técnica avançada com múltiplos indicadores e períodos de tempo.</p>
-      </div>
-      <div class="feature-card hidden delay-3">
-        <div class="feature-icon">
-          <i class="fas fa-bell"></i>
-        </div>
-        <h3>Alertas Inteligentes</h3>
-        <p>Notificações personalizadas quando seus ativos atingem valores pré-definidos.</p>
-      </div>
-      <div class="feature-card hidden delay-1">
-        <div class="feature-icon">
-          <i class="fas fa-trophy"></i>
-        </div>
-        <h3>Ranking de Moedas</h3>
-        <p>Compare desempenho por capitalização, volume e variação percentual.</p>
-      </div>
-      <div class="feature-card hidden delay-2">
-        <div class="feature-icon">
-          <i class="fas fa-wallet"></i>
-        </div>
-        <h3>Gerenciador de Portfólio</h3>
-        <p>Acompanhe seus investimentos e desempenho com ferramentas visuais.</p>
-      </div>
-      <div class="feature-card hidden delay-3">
-        <div class="feature-icon">
-          <i class="fas fa-robot"></i>
-        </div>
-        <h3>Análise Automatizada</h3>
-        <p>Relatórios gerados automaticamente com insights sobre tendências de mercado.</p>
-      </div>
+    <div class="hero-image hidden delay-1">
+      <img src="img/foto1.png" alt="Dashboard TrackCripto">
     </div>
   </section>
 
-  <!-- Advantages Section -->
-  <section class="advantages section-bg-alt" id="advantages">
-    <div class="section-title hidden">
-      <h2>Vantagens <span>Exclusivas</span></h2>
-      <p>Por que milhares de investidores confiam na TrackCripto</p>
-    </div>
-    <div class="advantages-list">
-      <div class="advantage-item hidden delay-1">
-        <div class="advantage-icon">
-          <i class="fas fa-bolt"></i>
-        </div>
-        <div class="advantage-content">
-          <h3>Velocidade Inigualável</h3>
-          <p>Nossa tecnologia garante atualizações em tempo real, sem delays, mesmo durante picos de volatilidade.</p>
-        </div>
+  <!-- Sobre o Projeto Section -->
+  <section class="section-bg" id="about-project">
+    <div class="container">
+      <div class="section-title hidden">
+        <h2>Sobre o <span>Projeto</span></h2>
       </div>
-      <div class="advantage-item hidden delay-2">
-        <div class="advantage-icon">
-          <i class="fas fa-shield-alt"></i>
+      <div class="about-project">
+        <div class="about-content hidden">
+          <h2>Mais que um dashboard,<br>uma revolução no acompanhamento cripto</h2>
+          <p>A TrackCripto surgiu da necessidade de simplificar a análise do volátil mercado de criptomoedas, tornando
+            dados complexos acessíveis e acionáveis.</p>
+          <p>Desenvolvida com tecnologia de ponta, nossa plataforma agrega informações de múltiplas exchanges e fontes
+            de
+            dados, proporcionando uma visão unificada e em tempo real do ecossistema cripto.</p>
+          <p>Nosso diferencial está na combinação de profundidade técnica com uma interface intuitiva, projetada tanto
+            para traders experientes quanto para quem está dando os primeiros passos nesse mercado.</p>
         </div>
-        <div class="advantage-content">
-          <h3>Dados Confiáveis</h3>
-          <p>Agregamos informações das principais exchanges globais para garantir precisão e consistência.</p>
-        </div>
-      </div>
-      <div class="advantage-item hidden delay-3">
-        <div class="advantage-icon">
-          <i class="fas fa-mobile-alt"></i>
-        </div>
-        <div class="advantage-content">
-          <h3>Design Responsivo</h3>
-          <p>Acesse de qualquer dispositivo com uma experiência otimizada para desktop, tablet e mobile.</p>
-        </div>
-      </div>
-      <div class="advantage-item hidden delay-4">
-        <div class="advantage-icon">
-          <i class="fas fa-lock"></i>
-        </div>
-        <div class="advantage-content">
-          <h3>Segurança em Primeiro Lugar</h3>
-          <p>Não requer acesso às suas chaves privadas ou contas em exchanges.</p>
+        <div class="about-image hidden delay-1">
+          <img src="img/foto2.png" alt="Dashboard TrackCripto">
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Creator Section -->
-  <section class="creator" id="creator">
-    <div class="section-title hidden">
-      <h2>Sobre o <span>Criador</span></h2>
-      <p>A mente por trás dessa revolução no acompanhamento cripto</p>
-    </div>
-    <div class="creator-section">
-      <div class="creator-content">
-        <div class="creator-image hidden delay-1">
-
+  <!-- Recursos Dashboard Section -->
+  <section id="features">
+    <div class="container">
+      <div class="section-title hidden">
+        <h2>Recursos do <span>Dashboard</span></h2>
+        <p>Conheça as poderosas ferramentas que preparamos para simplificar sua jornada no universo cripto</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card hidden">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Cotações em Tempo Real</h3>
+          <p>Acompanhe os preços das principais criptomoedas atualizados em tempo real com dados diretos das maiores
+            exchanges.</p>
         </div>
-        <div class="creator-text hidden delay-2">
-          <h3>Bruno Santos: <span>Um prodígio de 18 anos</span></h3>
-          <p>Aos 14 anos, Bruno já demonstrava aptidão excepcional para programação. Aos 16, começou a investir em
-            criptomoedas e identificou a falta de ferramentas acessíveis para análise de mercado.</p>
-          <p>"Percebi que as plataformas existentes ou eram muito complexas para iniciantes ou careciam de recursos
-            avançados. Queria criar algo que unisse o melhor dos dois mundos", explica Bruno.</p>
-          <p>Aos 18, transformou essa visão na TrackCripto, desenvolvendo sozinho a primeira versão do dashboard em
-            apenas 3 meses de trabalho intenso.</p>
-          <p>Hoje, mesmo jovem, Bruno lidera um pequeno time de desenvolvedores apaixonados por criptomoedas,
-            comprometidos em tornar o mercado financeiro descentralizado acessível a todos.</p>
+        <div class="feature-card hidden delay-1">
+          <div class="feature-icon">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <h3>Gráficos Interativos</h3>
+          <p>Visualize a performance de ativos com gráficos detalhados e personalizáveis para uma análise técnica
+            completa.</p>
+        </div>
+        <div class="feature-card hidden delay-2">
+          <div class="feature-icon">
+            <i class="fas fa-bell"></i>
+          </div>
+          <h3>Alertas Inteligentes</h3>
+          <p>Configure notificações personalizadas para preços, volumes e eventos importantes do mercado cripto.</p>
+        </div>
+        <div class="feature-card hidden">
+          <div class="feature-icon">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <h3>Ranking de Moedas</h3>
+          <p>Compare o desempenho das criptomoedas com rankings baseados em preço, volume de negociação e capitalização.
+          </p>
+        </div>
+        <div class="feature-card hidden delay-1">
+          <div class="feature-icon">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <h3>Gerenciador de Portfólio</h3>
+          <p>Monitore seus investimentos, acompanhe ganhos e perdas e analise a distribuição da sua carteira de ativos.
+          </p>
+        </div>
+        <div class="feature-card hidden delay-2">
+          <div class="feature-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h3>Análise Automatizada</h3>
+          <p>Receba insights automáticos e relatórios personalizados sobre tendências e oportunidades do mercado.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Roadmap Section -->
-  <section class="roadmap section-bg" id="roadmap">
-    <div class="section-title hidden">
-      <h2>Roadmap <span>2025-2027</span></h2>
-      <p>Nosso plano para revolucionar ainda mais o acompanhamento cripto</p>
-    </div>
-    <div class="roadmap-container">
-      <div class="roadmap-track">
-        <div class="roadmap-item hidden delay-1">
-          <div class="roadmap-marker"></div>
-          <div class="roadmap-content">
-            <h3>Q1 2025</h3>
-            <p>Lançamento oficial do dashboard TrackCripto com dados em tempo real.</p>
+  <!-- Vantagens do TrackCripto Section -->
+  <section class="section-bg" id="benefits">
+    <div class="container">
+      <div class="section-title hidden">
+        <h2>Vantagens do <span>TrackCripto</span></h2>
+        <p>Por que escolher nossa plataforma para sua jornada no universo das criptomoedas</p>
+      </div>
+      <div class="benefits-list">
+        <div class="benefit-item hidden">
+          <div class="benefit-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <div class="benefit-content">
+            <h3>Educação para Iniciantes</h3>
+            <p>Conteúdo didático e explicativo para quem está começando, com glossário, tutoriais e guias passo a passo.
+            </p>
           </div>
         </div>
-        <div class="roadmap-item hidden delay-2">
-          <div class="roadmap-marker"></div>
-          <div class="roadmap-content">
-            <h3>Q3 2025</h3>
-            <p>Implementação do gerenciador de portfólio e alertas inteligentes.</p>
+        <div class="benefit-item hidden delay-1">
+          <div class="benefit-icon">
+            <i class="fas fa-tachometer-alt"></i>
+          </div>
+          <div class="benefit-content">
+            <h3>Interface Intuitiva</h3>
+            <p>Dashboard fácil de usar, com informações organizadas de forma clara e acessível mesmo para não
+              especialistas.</p>
           </div>
         </div>
-        <div class="roadmap-item hidden delay-3">
-          <div class="roadmap-marker"></div>
-          <div class="roadmap-content">
-            <h3>Q1 2026</h3>
-            <p>Lançamento do aplicativo mobile com suporte a DeFi.</p>
+        <div class="benefit-item hidden delay-2">
+          <div class="benefit-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <div class="benefit-content">
+            <h3>Segurança e Privacidade</h3>
+            <p>Não solicitamos chaves privadas ou acesso a suas carteiras. Sua segurança é nossa prioridade.</p>
           </div>
         </div>
-        <div class="roadmap-item hidden delay-4">
-          <div class="roadmap-marker"></div>
-          <div class="roadmap-content">
-            <h3>Q3 2026</h3>
-            <p>Integração de Inteligência Artificial para análises preditivas.</p>
+        <div class="benefit-item hidden delay-3">
+          <div class="benefit-icon">
+            <i class="fas fa-mobile-alt"></i>
           </div>
-        </div>
-        <div class="roadmap-item hidden delay-5">
-          <div class="roadmap-marker"></div>
-          <div class="roadmap-content">
-            <h3>Q1 2027</h3>
-            <p>Expansão global com suporte multilíngue e novas parcerias estratégicas.</p>
+          <div class="benefit-content">
+            <h3>Acesso Multiplataforma</h3>
+            <p>Acesse de qualquer dispositivo, com sincronização em tempo real entre desktop e aplicativo móvel.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section class="contact" id="contact">
-    <div class="section-title hidden">
-      <h2>Fale <span>Conosco</span></h2>
-      <p>Tem dúvidas, sugestões ou quer saber mais sobre o projeto?</p>
-    </div>
-    <div class="contact-container">
-      <div class="contact-info hidden delay-1">
-        <h3>Vamos conversar!</h3>
-        <p>Estamos sempre abertos para feedbacks, parcerias ou qualquer outra informação que você precise sobre a
-          TrackCripto.</p>
-        <p>Siga-nos nas redes sociais para acompanhar as últimas atualizações e novidades do projeto.</p>
-        <div class="social-links">
-          <a href="https://x.com/track9606767572"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.instagram.com/trackcripto/"><i class="fab fa-instagram"></i></a>
-          <a href="https://github.com/devbrunoss"><i class="fab fa-github"></i></a>
-          <a href="https://www.linkedin.com/in/brunosantosanalise/"><i class="fab fa-linkedin"></i></a>
-
+  <!-- Educação Cripto Section -->
+  <section id="education">
+    <div class="container">
+      <div class="section-title hidden">
+        <h2>Educação <span>Cripto</span></h2>
+        <p>Conteúdos didáticos para você aprender sobre criptomoedas no seu ritmo</p>
+      </div>
+      <div class="education-grid">
+        <div class="education-card hidden">
+          <div class="education-icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <h3>Guia do Iniciante</h3>
+          <p>Tutoriais passo a passo para compreender os conceitos básicos do mercado de criptomoedas.</p>
+        </div>
+        <div class="education-card hidden delay-1">
+          <div class="education-icon">
+            <i class="fas fa-chart-pie"></i>
+          </div>
+          <h3>Análise de Mercado</h3>
+          <p>Aprenda a analisar gráficos, tendências e indicadores para tomar decisões mais informadas.</p>
+        </div>
+        <div class="education-card hidden delay-2">
+          <div class="education-icon">
+            <i class="fas fa-vault"></i>
+          </div>
+          <h3>Segurança Digital</h3>
+          <p>Melhores práticas para proteger seus investimentos e evitar golpes no universo cripto.</p>
         </div>
       </div>
-      <div class="contact-form hidden delay-2">
-        <form id="form">
-          <div class="form-group">
-            <label for="name">Nome</label>
-            <input type="text" id="name" name="name" required>
+    </div>
+  </section>
+
+  <!-- Como Funciona Section -->
+  <section class="section-bg-alt" id="how-works">
+    <div class="container">
+      <div class="section-title hidden">
+        <h2>Como <span>Funciona</span></h2>
+        <p>Três passos simples para começar a usar o TrackCripto</p>
+      </div>
+      <div class="how-works">
+        <div class="step hidden">
+          <div class="step-number">1</div>
+          <h3>Crie sua Conta</h3>
+          <p>Registro rápido e simples com e-mail. Sem necessidade de verificação complexa.</p>
+        </div>
+        <div class="step hidden delay-1">
+          <div class="step-number">2</div>
+          <h3>Explore o Dashboard</h3>
+          <p>Navegue pelas funcionalidades e personalize de acordo com suas preferências.</p>
+        </div>
+        <div class="step hidden delay-2">
+          <div class="step-number">3</div>
+          <h3>Acompanhe e Aprenda</h3>
+          <p>Monitore seus ativos de interesse e acesse conteúdos educativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Depoimentos Section -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-title hidden">
+        <h2>O que <span>Dizem</span> de Nós</h2>
+        <p>Depoimentos de usuários que estão utilizando nossa plataforma</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card hidden">
+          <p class="testimonial-text">"Como iniciante no mercado cripto, o TrackCripto foi essencial para eu entender
+            como tudo funciona. A interface é intuitiva e os conteúdos educativos são excelentes!"</p>
+          <p class="testimonial-author">— Maria Silva, Investidora Iniciante</p>
+        </div>
+        <div class="testimonial-card hidden delay-1">
+          <p class="testimonial-text">"Finalmente uma plataforma que não assume que você já é um expert em cripto. As
+            explicações são claras e me sinto muito mais confiante para tomar decisões de investimento."</p>
+          <p class="testimonial-author">— João Santos, Designer</p>
+        </div>
+        <div class="testimonial-card hidden delay-2">
+          <p class="testimonial-text">"Uso vários dashboards profissionais, mas o TrackCripto consegue ser o mais
+            didático e fácil de usar, mesmo para quem já tem experiência no mercado."</p>
+          <p class="testimonial-author">— Carlos Mendonça, Trader Experiente</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section-bg" id="faq">
+    <div class="container">
+      <div class="section-title hidden">
+        <h2>Perguntas <span>Frequentes</span></h2>
+        <p>Tire suas dúvidas sobre o TrackCripto e o universo das criptomoedas</p>
+      </div>
+      <div class="faq-container">
+        <div class="faq-item hidden">
+          <div class="faq-question">
+            <span>Preciso ter conhecimento prévio sobre criptomoedas?</span>
+            <i class="fas fa-chevron-down"></i>
           </div>
-          <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" required>
+          <div class="faq-answer">
+            <p>Não! O TrackCripto foi desenvolvido especificamente para iniciantes. Oferecemos tutoriais, glossário e
+              conteúdos educativos para que qualquer pessoa possa começar do zero.</p>
           </div>
-          <div class="form-group">
-            <label for="message">Mensagem</label>
-            <textarea id="message" name="message" required></textarea>
+        </div>
+        <div class="faq-item hidden delay-1">
+          <div class="faq-question">
+            <span>É preciso conectar minhas carteiras ou exchanges?</span>
+            <i class="fas fa-chevron-down"></i>
           </div>
-          <button type="submit" class="btn submit-btn">Enviar Mensagem <i class="fas fa-paper-plane"></i></button>
-        </form>
+          <div class="faq-answer">
+            <p>Não exigimos acesso às suas contas ou carteiras. Você pode inserir suas posições manualmente para
+              acompanhamento, mantendo total controle e segurança sobre seus ativos.</p>
+          </div>
+        </div>
+        <div class="faq-item hidden delay-2">
+          <div class="faq-question">
+            <span>O TrackCripto tem algum custo?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Oferecemos uma versão gratuita com funcionalidades básicas. Planos premium com recursos avançados estão
+              disponíveis para usuários que desejam uma experiência mais completa.</p>
+          </div>
+        </div>
+        <div class="faq-item hidden delay-3">
+          <div class="faq-question">
+            <span>Como são atualizados os dados do mercado?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Nossos dados são atualizados em tempo real através de conexões com diversas exchanges e fontes de dados
+              confiáveis do mercado cripto.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="cta">
+    <div class="container">
+      <div class="cta-section hidden">
+        <div class="cta-content">
+          <h2>Comece sua Jornada <span>Cripto</span> Hoje</h2>
+          <p>Junte-se a milhares de usuários que estão aprendendo sobre criptomoedas de forma simples e segura.</p>
+          <a href="#" class="btn">Acessar Dashboard</a>
+        </div>
+        <div class="cta-image">
+          <img src="img/foto2.png" alt="App TrackCripto">
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
-    <div class="footer-content">
-      <div class="footer-about">
-        <div class="footer-logo">Track<span>Cripto</span></div>
-        <p>A plataforma mais inovadora para acompanhamento do mercado de criptomoedas, criada para democratizar o acesso
-          a informações financeiras de qualidade.</p>
-        <p>© 2025 TrackCripto. Todos os direitos reservados.</p>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-about">
+          <div class="footer-logo">Track<span>Cripto</span></div>
+          <p>Educação simplificada e ferramentas acessíveis para iniciantes no mercado de criptomoedas.</p>
+          <p class="footer-disclaimer">TrackCripto é uma plataforma educativa e informativa. Não fornecemos consultoria
+            financeira e não somos responsáveis por decisões de investimento. Criptomoedas são investimentos de alto
+            risco.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Links Rápidos</h3>
+          <ul>
+            <li><a href="#about">Sobre Nós</a></li>
+            <li><a href="#features">Recursos</a></li>
+            <li><a href="#education">Educação</a></li>
+            <li><a href="#testimonials">Depoimentos</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h3>Recursos</h3>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Tutoriais</a></li>
+            <li><a href="#">Webinars</a></li>
+            <li><a href="#">Glossário</a></li>
+            <li><a href="#">Suporte</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h3>Legal</h3>
+          <ul>
+            <li><a href="#">Termos de Uso</a></li>
+            <li><a href="#">Política de Privacidade</a></li>
+            <li><a href="#">Cookies</a></li>
+            <li><a href="#">Disclaimer</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Navegação</h3>
-        <ul>
-          <li><a href="#home">Início</a></li>
-          <li><a href="#about">Sobre</a></li>
-          <li><a href="#features">Recursos</a></li>
-          <li><a href="#roadmap">Roadmap</a></li>
-          <li><a href="#contact">Contato</a></li>
-        </ul>
-      </div>
-      <div class="footer-links">
-        <h3>Recursos</h3>
-        <ul>
-          <li><a href="https://trackcriptodb.netlify.app/">Dashboard</a></li>
-          <li><a href="#">Documentação</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Status do Serviço</a></li>
-        </ul>
-      </div>
-      <div class="footer-links">
-        <h3>Legal</h3>
-        <ul>
-          <li><a href="#">Termos de Uso</a></li>
-          <li><a href="#">Política de Privacidade</a></li>
-          <li><a href="#">Cookies</a></li>
-          <li><a href="#">FAQ</a></li>
-        </ul>
+      <div class="footer-bottom">
+        <p>&copy; 2023 TrackCripto. Todos os direitos reservados.</p>
       </div>
     </div>
-
   </footer>
 
   <script>
-    // Mobile Menu Toggle
+    // Menu Mobile
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const nav = document.getElementById('nav');
 
     mobileMenuBtn.addEventListener('click', () => {
       nav.classList.toggle('active');
-      mobileMenuBtn.innerHTML = nav.classList.contains('active')
-        ? '<i class="fas fa-times"></i>'
-        : '<i class="fas fa-bars"></i>';
+      mobileMenuBtn.innerHTML = nav.classList.contains('active') ?
+        '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
     });
 
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('#nav ul li a').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('active');
-        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-      });
-    });
-
-    // Header scroll effect
+    // Header Scroll
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 50) {
@@ -1467,70 +1749,53 @@
       }
     });
 
-    // Scroll reveal animation
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      question.addEventListener('click', () => {
+        item.classList.toggle('active');
+      });
+    });
+
+    // Scroll Animation
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('show');
         }
       });
-    }, {
-      threshold: 0.1
+    }, observerOptions);
+
+    document.querySelectorAll('.hidden').forEach((el) => {
+      observer.observe(el);
     });
 
-    const hiddenElements = document.querySelectorAll('.hidden');
-    hiddenElements.forEach(el => observer.observe(el));
-
-    // Smooth scrolling for anchor links
+    // Smooth Scroll for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
-
         const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
+        if (targetId === '#') return;
 
+        const targetElement = document.querySelector(targetId);
         if (targetElement) {
+          // Fechar menu mobile se estiver aberto
+          if (nav.classList.contains('active')) {
+            nav.classList.remove('active');
+            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+          }
+
           window.scrollTo({
             top: targetElement.offsetTop - 80,
             behavior: 'smooth'
           });
         }
-      });
-    });
-
-    // Form submission
-    const form = document.getElementById('form');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      // Get form values
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
-
-      // Here you would typically send the data to a server
-      console.log({ name, email, message });
-
-      // Show success message
-      alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
-
-      // Reset form
-      form.reset();
-    });
-
-    // Add hover effect to feature cards
-    const featureCards = document.querySelectorAll('.feature-card');
-    featureCards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        const icon = card.querySelector('.feature-icon');
-        icon.style.transform = 'scale(1.1)';
-        icon.style.color = 'var(--primary-dark)';
-      });
-
-      card.addEventListener('mouseleave', () => {
-        const icon = card.querySelector('.feature-icon');
-        icon.style.transform = 'scale(1)';
-        icon.style.color = 'var(--primary)';
       });
     });
   </script>
