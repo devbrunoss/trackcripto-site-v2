@@ -6,17 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO Básico -->
-  <title>TrackCripto - Aprenda Criptomoedas sem Complicação</title>
+  <title>TrackCripto - Acompanhe Criptomoedas em Tempo Real</title>
   <meta name="description"
     content="TrackCripto oferece educação simplificada e ferramentas acessíveis para iniciantes no mercado de criptomoedas. Dashboard intuitivo e conteúdo didático.">
   <meta name="keywords"
-    content="criptomoedas, bitcoin, ethereum, aprender cripto, iniciantes cripto, dashboard cripto, educação financeira">
+    content="criptomoedas, bitcoin hoje, ethereum preço, investir em cripto, como começar em criptomoedas, guia cripto iniciantes, mercado cripto, trading de criptomoedas, blockchain, educação financeira digital">
+
   <meta name="author" content="TrackCripto">
 
   <!-- Open Graph (Compartilhamento em redes sociais) -->
-  <meta property="og:title" content="TrackCripto - Aprenda Criptomoedas sem Complicação">
+  <meta property="og:title" content="TrackCripto – Acompanhe o mercado cripto em tempo real">
   <meta property="og:description"
-    content="Educação fácil, ferramentas úteis e cotações em tempo real para iniciantes em criptomoedas.">
+    content="Monitoramento simples e rápido das principais criptomoedas. Gráficos, preços atualizados e insights para você investir com mais confiança.">
   <meta property="og:image" content="img/foto1.png">
   <meta property="og:url" content="https://trackcripto.netlify.app">
   <meta property="og:type" content="website">
@@ -66,12 +67,25 @@
     box-sizing: border-box;
   }
 
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--dark);
     color: var(--text);
     line-height: 1.6;
     overflow-x: hidden;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
   }
 
   /* Header */
@@ -267,8 +281,14 @@
     display: flex;
     justify-content: center;
     position: relative;
-    padding-left: 50px;
+    padding-left: 0px;
     z-index: 2;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
   }
 
   .hero-image img {
@@ -1328,22 +1348,22 @@
     width: 100%;
   }
 
-.hero-image {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  padding-left: 50px;
-}
+  .hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    padding-left: 50px;
+  }
 
-.hero-image img {
-  max-width: 100%;
-  height: auto;
-  animation: float 6s ease-in-out infinite;
-  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
-}
+  .hero-image img {
+    max-width: 100%;
+    height: auto;
+    animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
+  }
 
-@keyframes float {
+  @keyframes float {
     0% {
       transform: translateY(0px);
     }
@@ -1357,7 +1377,11 @@
     }
   }
 
-  
+  @media (min-width: 992px) {
+    .hero-image {
+      padding-left: 50px;
+    }
+  }
 </style>
 
 <body>
@@ -1387,7 +1411,7 @@
       <h1>Domine o mercado de <span>criptomoedas</span> com dados em tempo real</h1>
       <p>TrackCripto oferece a análise mais precisa do mercado cripto, com ferramentas profissionais acessíveis para
         investidores de todos os níveis.</p>
-      <a href="#cta" class="btn">Começar Agora</a>
+      <a href="#cta" class="btn">Acessar Dashboard</a>
     </div>
     <div class="hero-image hidden delay-1">
       <img src="img/foto1.png" alt="Dashboard TrackCripto">
